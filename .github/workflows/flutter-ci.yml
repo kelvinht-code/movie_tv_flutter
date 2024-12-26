@@ -27,5 +27,5 @@ jobs:
         run: flutter pub get
 
       # Run build app
-#      - name: Build APK
-#        run: flutter build apk --no-sound-null-safety
+      - name: Build APK
+        run: flutter build apk --no-sound-null-safety
