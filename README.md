@@ -2,6 +2,8 @@
 
 A new Flutter project.
 
+https://github.com/kelvinht-code/movie_tv_flutter/actions/workflows/flutter-ci.yml/badge.svg
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
