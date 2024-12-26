@@ -28,4 +28,4 @@ jobs:
 
       # Run build app
       - name: Build APK
-        run: flutter build apk --no-sound-null-safety
+        run: flutter build apk
