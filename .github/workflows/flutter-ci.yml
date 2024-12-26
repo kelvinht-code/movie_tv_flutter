@@ -3,47 +3,46 @@ name: Flutter CI
 on:
   push:
     branches:
+      - develop
+      - feature/workflows
       - main
   pull_request:
     branches:
+      - develop
+      - feature/workflows
       - main
 
 jobs:
-  build:
-    runs-on: windows-latest
+  install_dependencies:
+    runs-on: ubuntu-latest
 
     steps:
-      # Checkout repository
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
-      # Setup Flutter
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: 'stable'
-          channel: 'stable'
-          cache: true
+      - name: Install Flutter (manual)
+        run: |
+          # Download and setup Flutter
+          git clone https://github.com/flutter/flutter.git -b stable
+          echo "$GITHUB_WORKSPACE/flutter/bin" >> $GITHUB_PATH
+          flutter doctor
 
-      # Cache Flutter dependencies
-      - name: Cache Flutter Dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            ${{ runner.os }}-flutter-cache
-            .pub-cache
-          key: ${{ runner.os }}-flutter-${{ hashFiles('pubspec.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-flutter-
-
-      # Install dependencies
       - name: Install dependencies
         run: flutter pub get
 
-      # Build APK
-      - name: Build APK
-        run: flutter build apk --no-sound-null-safety
+  test:
+    runs-on: ubuntu-latest
 
-      # Run tests
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Flutter (manual)
+        run: |
+          # Download and setup Flutter
+          git clone https://github.com/flutter/flutter.git -b stable
+          echo "$GITHUB_WORKSPACE/flutter/bin" >> $GITHUB_PATH
+          flutter doctor
+
       - name: Run tests
         run: flutter test
