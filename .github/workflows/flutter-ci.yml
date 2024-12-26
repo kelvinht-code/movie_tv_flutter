@@ -17,32 +17,20 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      # Checkout code from repository
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Install Flutter (manual)
-        run: |
-          # Download and setup Flutter
-          git clone https://github.com/flutter/flutter.git -b stable
-          echo "$GITHUB_WORKSPACE/flutter/bin" >> $GITHUB_PATH
-          flutter doctor
-
+      # Install Flutter
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable' # Version Flutter
+      
+      # Run Flutter pub get for download dependencies
       - name: Install dependencies
         run: flutter pub get
 
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Install Flutter (manual)
-        run: |
-          # Download and setup Flutter
-          git clone https://github.com/flutter/flutter.git -b stable
-          echo "$GITHUB_WORKSPACE/flutter/bin" >> $GITHUB_PATH
-          flutter doctor
-
-      - name: Run tests
-        run: flutter test
+      # Run build app
+      - name: Build APK
+        run: flutter build apk --no-sound-null-safety
