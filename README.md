@@ -1,8 +1,10 @@
 # movie_tv_level_maximum
 
-A new Flutter project.
+# My Flutter App
 
-https://github.com/kelvinht-code/movie_tv_flutter/actions/workflows/flutter-ci.yml/badge.svg
+![Flutter CI](https://github.com/kelvinht-code/movie_tv_flutter/actions/workflows/flutter-ci.yml/badge.svg)
+
+This project is powered by Flutter and CI is managed via GitHub Actions.
 
 ## Getting Started
 
