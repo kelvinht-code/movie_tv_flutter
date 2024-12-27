@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/movie/list/movie_list_bloc.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/list/tv_show_list_bloc.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/search/search_tv_show_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/movie/movie_page_widget.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/movie/search_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/movie/watchlist_movies_page.dart';
@@ -24,17 +27,17 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-        () => Provider.of<MovieListNotifier>(context, listen: false)
-          ..fetchNowPlayingMovies()
-          ..fetchPopularMovies()
-          ..fetchTopRatedMovies());
-    Future.microtask(
-        () => Provider.of<TvShowListNotifier>(context, listen: false)
-          ..fetchAiringTodayTvShows()
-          ..fetchOnTheAirTvShows()
-          ..fetchPopularTvShows()
-          ..fetchTopRatedTvShows());
+    Future.microtask(() {
+      context.read<NowPlayingMovieBloc>().add(FetchNowPlayingMovies());
+      context.read<PopularMovieBloc>().add(FetchPopularMovies());
+      context.read<TopRatedMovieBloc>().add(FetchTopRatedMovies());
+    });
+    Future.microtask(() {
+      context.read<AiringTodayTvShowBloc>().add(FetchAiringTodayTvShows());
+      context.read<OnTheAirTvShowBloc>().add(FetchOnTheAirTvShows());
+      context.read<PopularTvShowBloc>().add(FetchPopularTvShows());
+      context.read<TopRatedTvShowBloc>().add(FetchTopRatedTvShows());
+    });
   }
 
   @override

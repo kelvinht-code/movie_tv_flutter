@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/list/tv_show_list_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/on_the_air_tv_shows_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/popular_tv_shows_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/top_rated_tv_shows_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_list_widget.dart';
-import 'package:movie_tv_level_maximum/presentation/provider/tv_show/tv_show_list_notifier.dart';
-import 'package:provider/provider.dart';
 
 import '../../../common/constants.dart';
-import '../../../common/state_enum.dart';
 
 class TvShowPageWidget extends StatelessWidget {
   const TvShowPageWidget({super.key});
@@ -21,69 +20,69 @@ class TvShowPageWidget extends StatelessWidget {
           'Airing Today',
           style: kHeading6,
         ),
-        Consumer<TvShowListNotifier>(builder: (context, data, child) {
-          final state = data.airingTodayState;
-          if (state == RequestState.Loading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state == RequestState.Loaded) {
-            return TvShowList(data.airingTodayTvShows);
-          } else {
-            return Text('Failed');
-          }
-        }),
+        BlocBuilder<AiringTodayTvShowBloc, TvShowListState>(
+          builder: (context, state) {
+            if (state is TvShowListLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is TvShowListHasData) {
+              return TvShowList(state.result);
+            } else if (state is TvShowListError) {
+              return Center(child: Text(state.message));
+            }
+            return SizedBox();
+          },
+        ),
         _buildSubHeading(
           title: 'On The Air',
           onTap: () =>
               Navigator.pushNamed(context, OnTheAirTvShowsPage.ROUTE_NAME),
         ),
-        Consumer<TvShowListNotifier>(builder: (context, data, child) {
-          final state = data.onTheAirState;
-          if (state == RequestState.Loading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state == RequestState.Loaded) {
-            return TvShowList(data.onTheAirTvShows);
-          } else {
-            return Text('Failed');
-          }
-        }),
+        BlocBuilder<OnTheAirTvShowBloc, TvShowListState>(
+          builder: (context, state) {
+            if (state is TvShowListLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is TvShowListHasData) {
+              return TvShowList(state.result);
+            } else if (state is TvShowListError) {
+              return Center(child: Text(state.message));
+            }
+            return SizedBox();
+          },
+        ),
         _buildSubHeading(
           title: 'Popular',
           onTap: () =>
               Navigator.pushNamed(context, PopularTvShowsPage.ROUTE_NAME),
         ),
-        Consumer<TvShowListNotifier>(builder: (context, data, child) {
-          final state = data.popularState;
-          if (state == RequestState.Loading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state == RequestState.Loaded) {
-            return TvShowList(data.popularTvShows);
-          } else {
-            return Text('Failed');
-          }
-        }),
+        BlocBuilder<PopularTvShowBloc, TvShowListState>(
+          builder: (context, state) {
+            if (state is TvShowListLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is TvShowListHasData) {
+              return TvShowList(state.result);
+            } else if (state is TvShowListError) {
+              return Center(child: Text(state.message));
+            }
+            return SizedBox();
+          },
+        ),
         _buildSubHeading(
           title: 'Top Rated',
           onTap: () =>
               Navigator.pushNamed(context, TopRatedTvShowsPage.ROUTE_NAME),
         ),
-        Consumer<TvShowListNotifier>(builder: (context, data, child) {
-          final state = data.topRatedState;
-          if (state == RequestState.Loading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state == RequestState.Loaded) {
-            return TvShowList(data.topRatedTvShows);
-          } else {
-            return Text('Failed');
-          }
-        }),
+        BlocBuilder<TopRatedTvShowBloc, TvShowListState>(
+          builder: (context, state) {
+            if (state is TvShowListLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is TvShowListHasData) {
+              return TvShowList(state.result);
+            } else if (state is TvShowListError) {
+              return Center(child: Text(state.message));
+            }
+            return SizedBox();
+          },
+        ),
       ],
     );
   }
