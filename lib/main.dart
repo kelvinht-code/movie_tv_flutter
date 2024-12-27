@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_tv_level_maximum/injection.dart' as di;
+import 'package:movie_tv_level_maximum/presentation/bloc/movie/crud/movie_crud_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/detail/movie_detail_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/list/movie_list_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/recommendation/movie_recommendation_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/search/search_movie_bloc.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/movie/watchlist/movie_watchlist_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/detail/tv_show_detail_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/episodes/tv_show_episodes_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/list/tv_show_list_bloc.dart';
@@ -26,7 +28,6 @@ import 'package:movie_tv_level_maximum/presentation/pages/tv_show/top_rated_tv_s
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_detail_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_episodes_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/watchlist_tv_shows_page.dart';
-import 'package:movie_tv_level_maximum/presentation/provider/movie/watchlist_movie_notifier.dart';
 import 'package:movie_tv_level_maximum/presentation/provider/tv_show/watchlist_tv_show_notifier.dart';
 import 'package:provider/provider.dart';
 
@@ -64,9 +65,21 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => di.locator<SearchMovieBloc>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<WatchlistMovieNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<MovieWatchlistBloc>(),
         ),
+        BlocProvider(
+          create: (_) => di.locator<MovieCrudBloc>(),
+        ),
+        /*BlocProvider(
+          create: (_) => di.locator<AddWatchlistMovieBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<RemoveWatchlistMovieBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<GetWatchlistStatusBloc>(),
+        ),*/
         BlocProvider(
           create: (_) => di.locator<AiringTodayTvShowBloc>(),
         ),

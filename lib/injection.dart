@@ -16,16 +16,17 @@ import 'package:movie_tv_level_maximum/domain/use_cases/tv_show/get_watchlist_tv
 import 'package:movie_tv_level_maximum/domain/use_cases/tv_show/remove_watchlist_tv_show.dart';
 import 'package:movie_tv_level_maximum/domain/use_cases/tv_show/save_watchlist_tv_show.dart';
 import 'package:movie_tv_level_maximum/domain/use_cases/tv_show/search_tv_shows.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/movie/crud/movie_crud_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/detail/movie_detail_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/list/movie_list_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/recommendation/movie_recommendation_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/search/search_movie_bloc.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/movie/watchlist/movie_watchlist_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/detail/tv_show_detail_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/episodes/tv_show_episodes_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/list/tv_show_list_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/recommendation/tv_show_recommendation_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/search/search_tv_show_bloc.dart';
-import 'package:movie_tv_level_maximum/presentation/provider/movie/watchlist_movie_notifier.dart';
 import 'package:movie_tv_level_maximum/presentation/provider/tv_show/watchlist_tv_show_notifier.dart';
 
 import 'data/data_sources/db/database_helper.dart';
@@ -67,10 +68,24 @@ void init() {
     () => MovieRecommendationBloc(locator()),
   );
   locator.registerFactory(
-    () => WatchlistMovieNotifier(
-      getWatchlistMovies: locator(),
+    () => MovieWatchlistBloc(locator()),
+  );
+  locator.registerFactory(
+    () => MovieCrudBloc(
+      saveWatchlist: locator(),
+      removeWatchlist: locator(),
+      getWatchListStatus: locator(),
     ),
   );
+  /*locator.registerFactory(
+    () => AddWatchlistMovieBloc(locator()),
+  );
+  locator.registerFactory(
+    () => RemoveWatchlistMovieBloc(locator()),
+  );
+  locator.registerFactory(
+    () => GetWatchlistStatusBloc(locator()),
+  );*/
   locator.registerFactory(
     () => AiringTodayTvShowBloc(locator()),
   );
