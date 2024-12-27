@@ -16,6 +16,7 @@ import 'package:movie_tv_level_maximum/domain/use_cases/tv_show/get_watchlist_tv
 import 'package:movie_tv_level_maximum/domain/use_cases/tv_show/remove_watchlist_tv_show.dart';
 import 'package:movie_tv_level_maximum/domain/use_cases/tv_show/save_watchlist_tv_show.dart';
 import 'package:movie_tv_level_maximum/domain/use_cases/tv_show/search_tv_shows.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/movie/search/search_movie_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/provider/movie/movie_detail_notifier.dart';
 import 'package:movie_tv_level_maximum/presentation/provider/movie/movie_list_notifier.dart';
 import 'package:movie_tv_level_maximum/presentation/provider/movie/movie_search_notifier.dart';
@@ -68,9 +69,7 @@ void init() {
     ),
   );
   locator.registerFactory(
-    () => MovieSearchNotifier(
-      searchMovies: locator(),
-    ),
+    () => SearchMovieBloc(locator()),
   );
   locator.registerFactory(
     () => PopularMoviesNotifier(
