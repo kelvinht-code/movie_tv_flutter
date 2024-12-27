@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_tv_level_maximum/injection.dart' as di;
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/search/search_movie_bloc.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/search/search_tv_show_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/about_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/movie/home_movie_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/movie/movie_detail_page.dart';
@@ -83,8 +84,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => di.locator<TvShowDetailNotifier>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<TvShowSearchNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<SearchTvShowBloc>(),
         ),
         ChangeNotifierProvider(
           create: (_) => di.locator<WatchlistTvShowNotifier>(),

@@ -17,9 +17,9 @@ import 'package:movie_tv_level_maximum/domain/use_cases/tv_show/remove_watchlist
 import 'package:movie_tv_level_maximum/domain/use_cases/tv_show/save_watchlist_tv_show.dart';
 import 'package:movie_tv_level_maximum/domain/use_cases/tv_show/search_tv_shows.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/search/search_movie_bloc.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/search/search_tv_show_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/provider/movie/movie_detail_notifier.dart';
 import 'package:movie_tv_level_maximum/presentation/provider/movie/movie_list_notifier.dart';
-import 'package:movie_tv_level_maximum/presentation/provider/movie/movie_search_notifier.dart';
 import 'package:movie_tv_level_maximum/presentation/provider/movie/popular_movies_notifier.dart';
 import 'package:movie_tv_level_maximum/presentation/provider/movie/top_rated_movies_notifier.dart';
 import 'package:movie_tv_level_maximum/presentation/provider/movie/watchlist_movie_notifier.dart';
@@ -29,7 +29,6 @@ import 'package:movie_tv_level_maximum/presentation/provider/tv_show/top_rated_t
 import 'package:movie_tv_level_maximum/presentation/provider/tv_show/tv_show_detail_notifier.dart';
 import 'package:movie_tv_level_maximum/presentation/provider/tv_show/tv_show_episodes_notifier.dart';
 import 'package:movie_tv_level_maximum/presentation/provider/tv_show/tv_show_list_notifier.dart';
-import 'package:movie_tv_level_maximum/presentation/provider/tv_show/tv_show_search_notifier.dart';
 import 'package:movie_tv_level_maximum/presentation/provider/tv_show/watchlist_tv_show_notifier.dart';
 
 import 'data/data_sources/db/database_helper.dart';
@@ -119,9 +118,7 @@ void init() {
     ),
   );
   locator.registerFactory(
-    () => TvShowSearchNotifier(
-      searchTvShows: locator(),
-    ),
+    () => SearchTvShowBloc(locator()),
   );
   locator.registerFactory(
     () => WatchlistTvShowNotifier(
