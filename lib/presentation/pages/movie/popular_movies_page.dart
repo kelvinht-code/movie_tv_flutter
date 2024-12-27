@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/movie/list/movie_list_bloc.dart';
 
-import '../../../common/state_enum.dart';
-import '../../provider/movie/popular_movies_notifier.dart';
 import '../../widgets/movie_card_list.dart';
 
 class PopularMoviesPage extends StatefulWidget {
@@ -18,9 +17,9 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<PopularMoviesNotifier>(context, listen: false)
-            .fetchPopularMovies());
+    Future.microtask(
+      () => context.read<PopularMovieBloc>().add(FetchPopularMovies()),
+    );
   }
 
   @override
@@ -31,26 +30,25 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<PopularMoviesNotifier>(
-          builder: (context, data, child) {
-            if (data.state == RequestState.Loading) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (data.state == RequestState.Loaded) {
+        child: BlocBuilder<PopularMovieBloc, MovieListState>(
+          builder: (context, state) {
+            if (state is MovieListLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is MovieListHasData) {
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  final movie = data.movies[index];
+                  final movie = state.result[index];
                   return MovieCard(movie);
                 },
-                itemCount: data.movies.length,
+                itemCount: state.result.length,
               );
-            } else {
+            } else if (state is MovieListError) {
               return Center(
                 key: Key('error_message'),
-                child: Text(data.message),
+                child: Text(state.message),
               );
             }
+            return SizedBox();
           },
         ),
       ),
