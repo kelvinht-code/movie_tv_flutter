@@ -40,8 +40,8 @@ void main() {
         _createTestableWidget(
           TvShowDetailBodyPage(
             tvShow: testTvShowDetail,
-            recommendations: testRecommendations,
-            isAddedWatchlist: false,
+            //recommendations: testRecommendations,
+            //isAddedWatchlist: false,
           ),
         ),
       );
@@ -60,8 +60,8 @@ void main() {
         _createTestableWidget(
           TvShowDetailBodyPage(
             tvShow: testTvShowDetail,
-            recommendations: testRecommendations,
-            isAddedWatchlist: false,
+            //recommendations: testRecommendations,
+            //isAddedWatchlist: false,
           ),
         ),
       );

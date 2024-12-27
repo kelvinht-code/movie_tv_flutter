@@ -1,28 +1,23 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:movie_tv_level_maximum/domain/entities/tv_show/tv_show.dart';
 import 'package:movie_tv_level_maximum/domain/entities/tv_show/tv_show_detail.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/recommendation/tv_show_recommendation_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_detail_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_episodes_page.dart';
-import 'package:provider/provider.dart';
 
 import '../../../common/constants.dart';
-import '../../../common/state_enum.dart';
 import '../../../domain/entities/tv_show/genre_tv_show.dart';
 import '../../../domain/entities/tv_show/tv_show_season.dart';
 import '../../provider/tv_show/tv_show_detail_notifier.dart';
 
 class TvShowDetailBodyPage extends StatelessWidget {
   final TvShowDetail tvShow;
-  final List<TvShow> recommendations;
-  final bool isAddedWatchlist;
 
   const TvShowDetailBodyPage({
     super.key,
     required this.tvShow,
-    required this.recommendations,
-    required this.isAddedWatchlist,
   });
 
   @override
@@ -72,7 +67,6 @@ class TvShowDetailBodyPage extends StatelessWidget {
 
   Widget _btnActionWatchlistTvShow(
       ScrollController scrollController, BuildContext context) {
-    final provider = Provider.of<TvShowDetailNotifier>(context, listen: false);
     return Container(
       decoration: BoxDecoration(
         color: kRichBlack,
@@ -92,18 +86,16 @@ class TvShowDetailBodyPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    tvShow.name,
-                    style: kHeading5,
-                  ),
+                  Text(tvShow.name, style: kHeading5),
                   FilledButton(
                     onPressed: () async {
-                      _actionAddOrRemoveWatchlist(provider, context);
+                      //_actionAddOrRemoveWatchlist(provider, context);
                     },
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        isAddedWatchlist ? Icon(Icons.check) : Icon(Icons.add),
+                        Icon(Icons.add),
+                        //isAddedWatchlist ? Icon(Icons.check) : Icon(Icons.add),
                         Text('Watchlist'),
                       ],
                     ),
@@ -124,24 +116,13 @@ class TvShowDetailBodyPage extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 16),
-                  Text(
-                    'Overview',
-                    style: kHeading6,
-                  ),
-                  Text(
-                    tvShow.overview,
-                  ),
+                  Text('Overview', style: kHeading6),
+                  Text(tvShow.overview),
                   SizedBox(height: 16),
-                  Text(
-                    'Recommendations',
-                    style: kHeading6,
-                  ),
+                  Text('Recommendations', style: kHeading6),
                   _recommendationTvShowWidget(),
                   SizedBox(height: 16),
-                  Text(
-                    'All Seasons and Episodes',
-                    style: kHeading6,
-                  ),
+                  Text('All Seasons and Episodes', style: kHeading6),
                   _allSeasons(tvShow.seasons),
                 ],
               ),
@@ -162,7 +143,7 @@ class TvShowDetailBodyPage extends StatelessWidget {
 
   void _actionAddOrRemoveWatchlist(
       TvShowDetailNotifier provider, BuildContext context) async {
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    /*final scaffoldMessenger = ScaffoldMessenger.of(context);
     if (!isAddedWatchlist) {
       await provider.addWatchlistTvShow(tvShow);
     } else {
@@ -185,25 +166,22 @@ class TvShowDetailBodyPage extends StatelessWidget {
           );
         },
       );
-    }
+    }*/
   }
 
   Widget _recommendationTvShowWidget() {
-    return Consumer<TvShowDetailNotifier>(
-      builder: (context, data, child) {
-        if (data.recommendationState == RequestState.Loading) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (data.recommendationState == RequestState.Error) {
-          return Text(data.message);
-        } else if (data.recommendationState == RequestState.Loaded) {
+    return BlocBuilder<TvShowRecommendationBloc, TvShowRecommendationState>(
+      builder: (context, state) {
+        if (state is TvShowRecommendationLoading) {
+          return Center(child: CircularProgressIndicator());
+        } else if (state is TvShowRecommendationHasData) {
           return SizedBox(
             height: 150,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
+              itemCount: state.result.length,
               itemBuilder: (context, index) {
-                final tvShow = data.tvShowRecommendations[index];
+                final tvShow = state.result[index];
                 return Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: InkWell(
@@ -234,9 +212,10 @@ class TvShowDetailBodyPage extends StatelessWidget {
                   ),
                 );
               },
-              itemCount: recommendations.length,
             ),
           );
+        } else if (state is TvShowRecommendationError) {
+          return Text(state.message);
         } else {
           return Container();
         }
@@ -272,8 +251,7 @@ class TvShowDetailBodyPage extends StatelessWidget {
                 child: (season.posterPath.isNotEmpty)
                     ? CachedNetworkImage(
                         key: ValueKey('ImageTvShowDetail'),
-                        imageUrl:
-                            'https://image.tmdb.org/t/p/w500${tvShow.posterPath}',
+                        imageUrl: '$BASE_IMAGE_URL${tvShow.posterPath}',
                         placeholder: (context, url) => Center(
                           child: CircularProgressIndicator(),
                         ),

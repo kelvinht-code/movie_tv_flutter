@@ -16,19 +16,16 @@ import 'package:movie_tv_level_maximum/domain/use_cases/tv_show/get_watchlist_tv
 import 'package:movie_tv_level_maximum/domain/use_cases/tv_show/remove_watchlist_tv_show.dart';
 import 'package:movie_tv_level_maximum/domain/use_cases/tv_show/save_watchlist_tv_show.dart';
 import 'package:movie_tv_level_maximum/domain/use_cases/tv_show/search_tv_shows.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/movie/detail/movie_detail_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/list/movie_list_bloc.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/movie/recommendation/movie_recommendation_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/search/search_movie_bloc.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/detail/tv_show_detail_bloc.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/episodes/tv_show_episodes_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/list/tv_show_list_bloc.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/recommendation/tv_show_recommendation_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/search/search_tv_show_bloc.dart';
-import 'package:movie_tv_level_maximum/presentation/provider/movie/movie_detail_notifier.dart';
-import 'package:movie_tv_level_maximum/presentation/provider/movie/popular_movies_notifier.dart';
-import 'package:movie_tv_level_maximum/presentation/provider/movie/top_rated_movies_notifier.dart';
 import 'package:movie_tv_level_maximum/presentation/provider/movie/watchlist_movie_notifier.dart';
-import 'package:movie_tv_level_maximum/presentation/provider/tv_show/on_the_air_tv_shows_notifier.dart';
-import 'package:movie_tv_level_maximum/presentation/provider/tv_show/popular_tv_shows_notifier.dart';
-import 'package:movie_tv_level_maximum/presentation/provider/tv_show/top_rated_tv_shows_notifier.dart';
-import 'package:movie_tv_level_maximum/presentation/provider/tv_show/tv_show_detail_notifier.dart';
-import 'package:movie_tv_level_maximum/presentation/provider/tv_show/tv_show_episodes_notifier.dart';
 import 'package:movie_tv_level_maximum/presentation/provider/tv_show/watchlist_tv_show_notifier.dart';
 
 import 'data/data_sources/db/database_helper.dart';
@@ -61,26 +58,13 @@ void init() {
     () => TopRatedMovieBloc(locator()),
   );
   locator.registerFactory(
-    () => MovieDetailNotifier(
-      getMovieDetail: locator(),
-      getMovieRecommendations: locator(),
-      getWatchListStatus: locator(),
-      saveWatchlist: locator(),
-      removeWatchlist: locator(),
-    ),
+    () => MovieDetailBloc(locator()),
   );
   locator.registerFactory(
     () => SearchMovieBloc(locator()),
   );
   locator.registerFactory(
-    () => PopularMoviesNotifier(
-      locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => TopRatedMoviesNotifier(
-      getTopRatedMovies: locator(),
-    ),
+    () => MovieRecommendationBloc(locator()),
   );
   locator.registerFactory(
     () => WatchlistMovieNotifier(
@@ -100,28 +84,10 @@ void init() {
     () => TopRatedTvShowBloc(locator()),
   );
   locator.registerFactory(
-    () => OnTheAirTvShowsNotifier(
-      getOnTheAirTvShow: locator(),
-    ),
+    () => TvShowDetailBloc(locator()),
   );
   locator.registerFactory(
-    () => PopularTvShowsNotifier(
-      getPopularTvShow: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => TopRatedTvShowsNotifier(
-      getTopRatedTvShow: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => TvShowDetailNotifier(
-      getTvShowDetail: locator(),
-      getTvShowRecommendations: locator(),
-      getWatchListTvShowStatus: locator(),
-      saveWatchlistTvShow: locator(),
-      removeWatchlistTvShow: locator(),
-    ),
+    () => TvShowRecommendationBloc(locator()),
   );
   locator.registerFactory(
     () => SearchTvShowBloc(locator()),
@@ -132,9 +98,7 @@ void init() {
     ),
   );
   locator.registerFactory(
-    () => TvShowEpisodesNotifier(
-      getTvShowEpisodes: locator(),
-    ),
+    () => TvShowEpisodesBloc(locator()),
   );
 
   // use case
