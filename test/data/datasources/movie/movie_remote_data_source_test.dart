@@ -56,7 +56,7 @@ void main() {
     });
   });
 
-  /*group('get Popular Movies', () {
+  group('get Popular Movies', () {
     final tMovieList =
         MovieResponse.fromJson(json.decode(readJson('dummy_data/popular.json')))
             .movieList;
@@ -203,5 +203,5 @@ void main() {
       // assert
       expect(() => call, throwsA(isA<ServerException>()));
     });
-  });*/
+  });
 }

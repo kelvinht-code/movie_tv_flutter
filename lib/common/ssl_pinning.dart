@@ -22,11 +22,6 @@ Future<IOClient> get getIOClient async {
 }
 class Shared {
   static Future<http.Client> createLEClient() async {
-    // Create and configure your SSL pinning logic here
-    // Example:
-    //var client = http.Client();
-    // Set up SSL pinning (use a package like `http` and `http_certificate_pinning`)
-    // return client;
     return await getIOClient;
   }
 }
