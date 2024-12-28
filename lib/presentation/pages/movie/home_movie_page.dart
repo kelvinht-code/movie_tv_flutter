@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/list/movie_list_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/list/tv_show_list_bloc.dart';
@@ -113,8 +114,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
           IconButton(
             onPressed: () {
               if (indexTab == 1) {
+                // FirebaseCrashlytics.instance.crash(); - Test for Crash
                 Navigator.pushNamed(context, SearchPage.ROUTE_NAME);
               } else if (indexTab == 3) {
+                // FirebaseCrashlytics.instance.crash(); - Test for Crash
                 Navigator.pushNamed(context, SearchTvShowPage.ROUTE_NAME);
               }
             },
