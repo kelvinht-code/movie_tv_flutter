@@ -8,7 +8,7 @@ import 'package:movie_tv_level_maximum/domain/entities/movie/movie.dart';
 import 'package:movie_tv_level_maximum/domain/use_cases/movie/search_movies.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/search/search_movie_bloc.dart';
 
-import '../../provider/movie/movie_search_notifier_test.mocks.dart';
+import 'search_movie_bloc_test.mocks.dart';
 
 @GenerateMocks([SearchMovies])
 void main() {
