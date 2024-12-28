@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:movie_tv_level_maximum/presentation/provider/tv_show/tv_show_search_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/search/search_tv_show_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/widgets/tv_show_card_list.dart';
-import 'package:provider/provider.dart';
 
 import '../../../common/constants.dart';
-import '../../../common/state_enum.dart';
 
 class SearchTvShowPage extends StatelessWidget {
   static const ROUTE_NAME = '/search-tvShow';
@@ -15,7 +14,7 @@ class SearchTvShowPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search'),
+        title: Text('Search TV Show'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -23,9 +22,10 @@ class SearchTvShowPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
-              onSubmitted: (query) {
-                Provider.of<TvShowSearchNotifier>(context, listen: false)
-                    .fetchTvShowSearch(query);
+              onChanged: (query) {
+                context
+                    .read<SearchTvShowBloc>()
+                    .add(OnQueryTvShowChange(query));
               },
               decoration: InputDecoration(
                 hintText: 'Search TV Show',
@@ -39,22 +39,28 @@ class SearchTvShowPage extends StatelessWidget {
               'Search Result',
               style: kHeading6,
             ),
-            Consumer<TvShowSearchNotifier>(
-              builder: (context, data, child) {
-                if (data.state == RequestState.Loading) {
+            BlocBuilder<SearchTvShowBloc, SearchTvShowState>(
+              builder: (context, state) {
+                if (state is SearchTvShowLoading) {
                   return Center(
                     child: CircularProgressIndicator(),
                   );
-                } else if (data.state == RequestState.Loaded) {
-                  final result = data.searchResult;
+                } else if (state is SearchTvShowHasData) {
+                  final result = state.result;
                   return Expanded(
                     child: ListView.builder(
                       padding: const EdgeInsets.all(8),
                       itemBuilder: (context, index) {
-                        final tvShow = data.searchResult[index];
+                        final tvShow = result[index];
                         return TvShowCard(tvShow);
                       },
                       itemCount: result.length,
+                    ),
+                  );
+                } else if (state is SearchTvShowError) {
+                  return Expanded(
+                    child: Center(
+                      child: Text(state.message),
                     ),
                   );
                 } else {
