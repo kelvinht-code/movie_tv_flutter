@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
+import 'package:movie_tv_level_maximum/common/ssl_pinning.dart';
 
 import '../../../common/exception.dart';
 import '../../models/movie/movie_detail_model.dart';
@@ -26,8 +28,9 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
 
   @override
   Future<List<MovieModel>> getNowPlayingMovies() async {
-    final response =
-        await client.get(Uri.parse('$BASE_URL/movie/now_playing?$API_KEY'));
+    final url = Uri.parse('$BASE_URL/movie/now_playing?$API_KEY');
+    IOClient ioClient = await getIOClient;
+    final response = await ioClient.get(url);
 
     if (response.statusCode == 200) {
       return MovieResponse.fromJson(json.decode(response.body)).movieList;
