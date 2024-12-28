@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/list/movie_list_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/list/tv_show_list_bloc.dart';
-import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/search/search_tv_show_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/movie/movie_page_widget.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/movie/search_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/movie/watchlist_movies_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/search_tv_show_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_page_widget.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/watchlist_tv_shows_page.dart';
-import 'package:movie_tv_level_maximum/presentation/provider/tv_show/tv_show_list_notifier.dart';
 import 'package:provider/provider.dart';
 
-import '../../provider/movie/movie_list_notifier.dart';
 import '../about_page.dart';
 
 class HomeMoviePage extends StatefulWidget {
