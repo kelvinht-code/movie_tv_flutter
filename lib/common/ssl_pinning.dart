@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 
 Future<SecurityContext> get globalContext async {
@@ -18,4 +19,24 @@ Future<IOClient> get getIOClient async {
     return cert.pem == String.fromCharCodes(sslCert.buffer.asUint8List());
   };
   return IOClient(client);
+}
+class Shared {
+  static Future<http.Client> createLEClient() async {
+    // Create and configure your SSL pinning logic here
+    // Example:
+    //var client = http.Client();
+    // Set up SSL pinning (use a package like `http` and `http_certificate_pinning`)
+    // return client;
+    return await getIOClient;
+  }
+}
+
+class HttpSSLPinning {
+  static Future<http.Client> get _instance async =>
+      _clientInstance ??= await Shared.createLEClient();
+  static http.Client? _clientInstance;
+  static http.Client get client => _clientInstance ?? http.Client();
+  static Future<void> init() async {
+    _clientInstance = await _instance;
+  }
 }
