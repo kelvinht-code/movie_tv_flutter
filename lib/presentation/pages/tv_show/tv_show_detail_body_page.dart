@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:movie_tv_level_maximum/domain/entities/tv_show/tv_show_detail.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/crud/tv_show_crud_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/recommendation/tv_show_recommendation_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_detail_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_episodes_page.dart';
@@ -10,9 +11,8 @@ import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_episod
 import '../../../common/constants.dart';
 import '../../../domain/entities/tv_show/genre_tv_show.dart';
 import '../../../domain/entities/tv_show/tv_show_season.dart';
-import '../../provider/tv_show/tv_show_detail_notifier.dart';
 
-class TvShowDetailBodyPage extends StatelessWidget {
+class TvShowDetailBodyPage extends StatefulWidget {
   final TvShowDetail tvShow;
 
   const TvShowDetailBodyPage({
@@ -21,14 +21,27 @@ class TvShowDetailBodyPage extends StatelessWidget {
   });
 
   @override
+  State<TvShowDetailBodyPage> createState() => _TvShowDetailBodyPageState();
+}
+
+class _TvShowDetailBodyPageState extends State<TvShowDetailBodyPage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      context.read<TvShowCrudBloc>().add(CheckIsWatchlist(widget.tvShow.id));
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     return Stack(
       children: [
-        (tvShow.posterPath != '')
+        (widget.tvShow.posterPath != '')
             ? CachedNetworkImage(
                 key: ValueKey('ImageTvShowDetail'),
-                imageUrl: '$BASE_IMAGE_URL${tvShow.posterPath}',
+                imageUrl: '$BASE_IMAGE_URL${widget.tvShow.posterPath}',
                 width: screenWidth,
                 placeholder: (context, url) => Center(
                   child: CircularProgressIndicator(),
@@ -86,25 +99,13 @@ class TvShowDetailBodyPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(tvShow.name, style: kHeading5),
-                  FilledButton(
-                    onPressed: () async {
-                      //_actionAddOrRemoveWatchlist(provider, context);
-                    },
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.add),
-                        //isAddedWatchlist ? Icon(Icons.check) : Icon(Icons.add),
-                        Text('Watchlist'),
-                      ],
-                    ),
-                  ),
-                  Text(_showGenres(tvShow.genres)),
+                  Text(widget.tvShow.name, style: kHeading5),
+                  _addOrRemoveWatchlist(widget.tvShow),
+                  Text(_showGenres(widget.tvShow.genres)),
                   Row(
                     children: [
                       RatingBarIndicator(
-                        rating: tvShow.voteAverage / 2,
+                        rating: widget.tvShow.voteAverage / 2,
                         itemCount: 5,
                         itemBuilder: (context, index) => Icon(
                           Icons.star,
@@ -112,18 +113,18 @@ class TvShowDetailBodyPage extends StatelessWidget {
                         ),
                         itemSize: 24,
                       ),
-                      Text('${tvShow.voteAverage}')
+                      Text('${widget.tvShow.voteAverage}')
                     ],
                   ),
                   SizedBox(height: 16),
                   Text('Overview', style: kHeading6),
-                  Text(tvShow.overview),
+                  Text(widget.tvShow.overview),
                   SizedBox(height: 16),
                   Text('Recommendations', style: kHeading6),
                   _recommendationTvShowWidget(),
                   SizedBox(height: 16),
                   Text('All Seasons and Episodes', style: kHeading6),
-                  _allSeasons(tvShow.seasons),
+                  _allSeasons(widget.tvShow.seasons),
                 ],
               ),
             ),
@@ -141,32 +142,53 @@ class TvShowDetailBodyPage extends StatelessWidget {
     );
   }
 
-  void _actionAddOrRemoveWatchlist(
-      TvShowDetailNotifier provider, BuildContext context) async {
-    /*final scaffoldMessenger = ScaffoldMessenger.of(context);
-    if (!isAddedWatchlist) {
-      await provider.addWatchlistTvShow(tvShow);
-    } else {
-      await provider.removeFromWatchlist(tvShow);
-    }
-
-    final message = provider.watchlistTvShowMessage;
-    final isAddSuccess =
-        message == TvShowDetailNotifier.watchlistTvShowAddSuccessMessage;
-    final isRemoveSuccess =
-        message == TvShowDetailNotifier.watchlistTvShowRemoveSuccessMessage;
-    if (isAddSuccess || isRemoveSuccess) {
-      scaffoldMessenger.showSnackBar(SnackBar(content: Text(message)));
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: Text(message),
+  Widget _addOrRemoveWatchlist(TvShowDetail tvShow) {
+    return BlocListener<TvShowCrudBloc, TvShowCrudState>(
+      listener: (context, state) {
+        if (state is TvShowCrudSuccess) {
+          print('Success Flow');
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.message)),
+          );
+        } else if (state is TvShowCrudFailure) {
+          print('Failed Flow');
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.message)),
+          );
+        }
+      },
+      child: BlocBuilder<TvShowCrudBloc, TvShowCrudState>(
+        builder: (context, state) {
+          bool isInWatchlist = false;
+          if (state is TvShowCrudStatus) {
+            isInWatchlist = state.isInWatchlist;
+          }
+          print('isInWatchlist: $isInWatchlist');
+          return Column(
+            children: [
+              FilledButton(
+                onPressed: () async {
+                  final tvCrudBloc = context.read<TvShowCrudBloc>();
+                  if (isInWatchlist) {
+                    tvCrudBloc.add(RemoveFromWatchlist(tvShow));
+                  } else {
+                    tvCrudBloc.add(AddToWatchlist(tvShow));
+                  }
+                  tvCrudBloc.add(CheckIsWatchlist(tvShow.id));
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    isInWatchlist ? Icon(Icons.check) : Icon(Icons.add),
+                    Text('Watchlist'),
+                  ],
+                ),
+              ),
+            ],
           );
         },
-      );
-    }*/
+      ),
+    );
   }
 
   Widget _recommendationTvShowWidget() {
@@ -197,16 +219,16 @@ class TvShowDetailBodyPage extends StatelessWidget {
                         Radius.circular(8),
                       ),
                       child: (tvShow.posterPath != null ||
-                              tvShow.posterPath != '')
+                          tvShow.posterPath != '')
                           ? CachedNetworkImage(
-                              key: ValueKey('ImageTvShowDetail'),
-                              imageUrl: '$BASE_IMAGE_URL${tvShow.posterPath}',
-                              placeholder: (context, url) => Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                            )
+                        key: ValueKey('ImageTvShowDetail'),
+                        imageUrl: '$BASE_IMAGE_URL${tvShow.posterPath}',
+                        placeholder: (context, url) => Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (context, url, error) =>
+                            Icon(Icons.error),
+                      )
                           : Icon(Icons.broken_image),
                     ),
                   ),
@@ -239,7 +261,7 @@ class TvShowDetailBodyPage extends StatelessWidget {
                   context,
                   TvShowEpisodesPage.ROUTE_NAME,
                   arguments: {
-                    'id': tvShow.id,
+                    'id': widget.tvShow.id,
                     'seasons': season.seasonNumber,
                   },
                 );
@@ -250,13 +272,13 @@ class TvShowDetailBodyPage extends StatelessWidget {
                 ),
                 child: (season.posterPath.isNotEmpty)
                     ? CachedNetworkImage(
-                        key: ValueKey('ImageTvShowDetail'),
-                        imageUrl: '$BASE_IMAGE_URL${tvShow.posterPath}',
-                        placeholder: (context, url) => Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                      )
+                  key: ValueKey('ImageTvShowDetail'),
+                  imageUrl: '$BASE_IMAGE_URL${widget.tvShow.posterPath}',
+                  placeholder: (context, url) => Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                )
                     : Icon(Icons.broken_image),
               ),
             ),

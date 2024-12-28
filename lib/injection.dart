@@ -22,12 +22,13 @@ import 'package:movie_tv_level_maximum/presentation/bloc/movie/list/movie_list_b
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/recommendation/movie_recommendation_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/search/search_movie_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/watchlist/movie_watchlist_bloc.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/crud/tv_show_crud_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/detail/tv_show_detail_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/episodes/tv_show_episodes_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/list/tv_show_list_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/recommendation/tv_show_recommendation_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/search/search_tv_show_bloc.dart';
-import 'package:movie_tv_level_maximum/presentation/provider/tv_show/watchlist_tv_show_notifier.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/watchlist/tv_show_watchlist_bloc.dart';
 
 import 'data/data_sources/db/database_helper.dart';
 import 'data/data_sources/movie/movie_local_data_source.dart';
@@ -77,15 +78,6 @@ void init() {
       getWatchListStatus: locator(),
     ),
   );
-  /*locator.registerFactory(
-    () => AddWatchlistMovieBloc(locator()),
-  );
-  locator.registerFactory(
-    () => RemoveWatchlistMovieBloc(locator()),
-  );
-  locator.registerFactory(
-    () => GetWatchlistStatusBloc(locator()),
-  );*/
   locator.registerFactory(
     () => AiringTodayTvShowBloc(locator()),
   );
@@ -108,9 +100,14 @@ void init() {
     () => SearchTvShowBloc(locator()),
   );
   locator.registerFactory(
-    () => WatchlistTvShowNotifier(
-      getWatchlistTvShows: locator(),
-    ),
+    () => TvShowWatchlistBloc(locator()),
+  );
+  locator.registerFactory(
+      () => TvShowCrudBloc(
+          saveWatchlistTvShow: locator(),
+          removeWatchlistTvShow: locator(),
+          getWatchListTvShowStatus: locator(),
+      ),
   );
   locator.registerFactory(
     () => TvShowEpisodesBloc(locator()),

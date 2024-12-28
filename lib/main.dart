@@ -9,11 +9,13 @@ import 'package:movie_tv_level_maximum/presentation/bloc/movie/list/movie_list_b
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/recommendation/movie_recommendation_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/search/search_movie_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/watchlist/movie_watchlist_bloc.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/crud/tv_show_crud_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/detail/tv_show_detail_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/episodes/tv_show_episodes_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/list/tv_show_list_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/recommendation/tv_show_recommendation_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/search/search_tv_show_bloc.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/watchlist/tv_show_watchlist_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/about_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/movie/home_movie_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/movie/movie_detail_page.dart';
@@ -28,7 +30,6 @@ import 'package:movie_tv_level_maximum/presentation/pages/tv_show/top_rated_tv_s
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_detail_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_episodes_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/watchlist_tv_shows_page.dart';
-import 'package:movie_tv_level_maximum/presentation/provider/tv_show/watchlist_tv_show_notifier.dart';
 import 'package:provider/provider.dart';
 
 import 'common/constants.dart';
@@ -71,15 +72,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => di.locator<MovieCrudBloc>(),
         ),
-        /*BlocProvider(
-          create: (_) => di.locator<AddWatchlistMovieBloc>(),
-        ),
-        BlocProvider(
-          create: (_) => di.locator<RemoveWatchlistMovieBloc>(),
-        ),
-        BlocProvider(
-          create: (_) => di.locator<GetWatchlistStatusBloc>(),
-        ),*/
         BlocProvider(
           create: (_) => di.locator<AiringTodayTvShowBloc>(),
         ),
@@ -101,8 +93,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => di.locator<SearchTvShowBloc>(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => di.locator<WatchlistTvShowNotifier>(),
+        BlocProvider(
+          create: (_) => di.locator<TvShowWatchlistBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TvShowCrudBloc>(),
         ),
         BlocProvider(
           create: (_) => di.locator<TvShowEpisodesBloc>(),
