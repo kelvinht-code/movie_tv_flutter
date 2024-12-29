@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
             <td class="headerCovTableEntry">20</td>
-            <td class="headerCovTableEntry">20</td>
-            <td class="headerCovTableEntryHi">100.0 %</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">Tue Dec 24 12:51:11 2024</td>
+            <td class="headerValue">Sun Dec 29 21:10:48 2024</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -61,60 +61,55 @@
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
 <a name="1"><span class="lineNum">       1 </span>            : import 'package:flutter/material.dart';</a>
-<a name="2"><span class="lineNum">       2 </span>            : import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_episodes_body_page.dart';</a>
-<a name="3"><span class="lineNum">       3 </span>            : import 'package:movie_tv_level_maximum/presentation/provider/tv_show/tv_show_episodes_notifier.dart';</a>
-<a name="4"><span class="lineNum">       4 </span>            : import 'package:provider/provider.dart';</a>
+<a name="2"><span class="lineNum">       2 </span>            : import 'package:flutter_bloc/flutter_bloc.dart';</a>
+<a name="3"><span class="lineNum">       3 </span>            : import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/episodes/tv_show_episodes_bloc.dart';</a>
+<a name="4"><span class="lineNum">       4 </span>            : import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_episodes_body_page.dart';</a>
 <a name="5"><span class="lineNum">       5 </span>            : </a>
-<a name="6"><span class="lineNum">       6 </span>            : import '../../../common/state_enum.dart';</a>
-<a name="7"><span class="lineNum">       7 </span>            : </a>
-<a name="8"><span class="lineNum">       8 </span>            : class TvShowEpisodesPage extends StatefulWidget {</a>
-<a name="9"><span class="lineNum">       9 </span>            :   static const ROUTE_NAME = '/season-episodes';</a>
-<a name="10"><span class="lineNum">      10 </span>            :   final int id;</a>
-<a name="11"><span class="lineNum">      11 </span>            :   final int season;</a>
-<a name="12"><span class="lineNum">      12 </span>            : </a>
-<a name="13"><span class="lineNum">      13 </span><span class="lineCov">          1 :   const TvShowEpisodesPage({</span></a>
-<a name="14"><span class="lineNum">      14 </span>            :     super.key,</a>
-<a name="15"><span class="lineNum">      15 </span>            :     required this.id,</a>
-<a name="16"><span class="lineNum">      16 </span>            :     required this.season,</a>
-<a name="17"><span class="lineNum">      17 </span>            :   });</a>
-<a name="18"><span class="lineNum">      18 </span>            : </a>
-<a name="19"><span class="lineNum">      19 </span><span class="lineCov">          1 :   @override</span></a>
-<a name="20"><span class="lineNum">      20 </span><span class="lineCov">          1 :   State&lt;TvShowEpisodesPage&gt; createState() =&gt; _TvShowEpisodesPageState();</span></a>
-<a name="21"><span class="lineNum">      21 </span>            : }</a>
-<a name="22"><span class="lineNum">      22 </span>            : </a>
-<a name="23"><span class="lineNum">      23 </span>            : class _TvShowEpisodesPageState extends State&lt;TvShowEpisodesPage&gt; {</a>
-<a name="24"><span class="lineNum">      24 </span><span class="lineCov">          1 :   @override</span></a>
-<a name="25"><span class="lineNum">      25 </span>            :   void initState() {</a>
-<a name="26"><span class="lineNum">      26 </span><span class="lineCov">          1 :     super.initState();</span></a>
-<a name="27"><span class="lineNum">      27 </span><span class="lineCov">          2 :     Future.microtask(() {</span></a>
-<a name="28"><span class="lineNum">      28 </span><span class="lineCov">          2 :       Provider.of&lt;TvShowEpisodesNotifier&gt;(context, listen: false)</span></a>
-<a name="29"><span class="lineNum">      29 </span><span class="lineCov">          5 :           .fetchTvShowEpisodes(widget.id, widget.season);</span></a>
-<a name="30"><span class="lineNum">      30 </span>            :     });</a>
-<a name="31"><span class="lineNum">      31 </span>            :   }</a>
-<a name="32"><span class="lineNum">      32 </span>            : </a>
-<a name="33"><span class="lineNum">      33 </span><span class="lineCov">          1 :   @override</span></a>
-<a name="34"><span class="lineNum">      34 </span>            :   Widget build(BuildContext context) {</a>
-<a name="35"><span class="lineNum">      35 </span><span class="lineCov">          1 :     return Scaffold(</span></a>
-<a name="36"><span class="lineNum">      36 </span><span class="lineCov">          1 :       body: Consumer&lt;TvShowEpisodesNotifier&gt;(</span></a>
-<a name="37"><span class="lineNum">      37 </span><span class="lineCov">          1 :         builder: (context, provider, child) {</span></a>
-<a name="38"><span class="lineNum">      38 </span><span class="lineCov">          2 :           if (provider.tvShowEpisodeState == RequestState.Loading) {</span></a>
-<a name="39"><span class="lineNum">      39 </span><span class="lineCov">          1 :             return Center(</span></a>
-<a name="40"><span class="lineNum">      40 </span><span class="lineCov">          1 :               child: CircularProgressIndicator(),</span></a>
-<a name="41"><span class="lineNum">      41 </span>            :             );</a>
-<a name="42"><span class="lineNum">      42 </span><span class="lineCov">          2 :           } else if (provider.tvShowEpisodeState == RequestState.Loaded) {</span></a>
-<a name="43"><span class="lineNum">      43 </span><span class="lineCov">          1 :             return SafeArea(</span></a>
-<a name="44"><span class="lineNum">      44 </span><span class="lineCov">          1 :               child: TvShowEpisodesBodyPage(</span></a>
-<a name="45"><span class="lineNum">      45 </span><span class="lineCov">          1 :                 tvShowEpisodes: provider.tvShowEpisode,</span></a>
-<a name="46"><span class="lineNum">      46 </span>            :               ),</a>
-<a name="47"><span class="lineNum">      47 </span>            :             );</a>
-<a name="48"><span class="lineNum">      48 </span>            :           } else {</a>
-<a name="49"><span class="lineNum">      49 </span><span class="lineCov">          2 :             return Text(provider.message);</span></a>
-<a name="50"><span class="lineNum">      50 </span>            :           }</a>
-<a name="51"><span class="lineNum">      51 </span>            :         },</a>
-<a name="52"><span class="lineNum">      52 </span>            :       ),</a>
-<a name="53"><span class="lineNum">      53 </span>            :     );</a>
-<a name="54"><span class="lineNum">      54 </span>            :   }</a>
-<a name="55"><span class="lineNum">      55 </span>            : }</a>
+<a name="6"><span class="lineNum">       6 </span>            : class TvShowEpisodesPage extends StatefulWidget {</a>
+<a name="7"><span class="lineNum">       7 </span>            :   static const ROUTE_NAME = '/season-episodes';</a>
+<a name="8"><span class="lineNum">       8 </span>            :   final int id;</a>
+<a name="9"><span class="lineNum">       9 </span>            :   final int season;</a>
+<a name="10"><span class="lineNum">      10 </span>            : </a>
+<a name="11"><span class="lineNum">      11 </span><span class="lineNoCov">          0 :   const TvShowEpisodesPage({</span></a>
+<a name="12"><span class="lineNum">      12 </span>            :     super.key,</a>
+<a name="13"><span class="lineNum">      13 </span>            :     required this.id,</a>
+<a name="14"><span class="lineNum">      14 </span>            :     required this.season,</a>
+<a name="15"><span class="lineNum">      15 </span>            :   });</a>
+<a name="16"><span class="lineNum">      16 </span>            : </a>
+<a name="17"><span class="lineNum">      17 </span><span class="lineNoCov">          0 :   @override</span></a>
+<a name="18"><span class="lineNum">      18 </span><span class="lineNoCov">          0 :   State&lt;TvShowEpisodesPage&gt; createState() =&gt; _TvShowEpisodesPageState();</span></a>
+<a name="19"><span class="lineNum">      19 </span>            : }</a>
+<a name="20"><span class="lineNum">      20 </span>            : </a>
+<a name="21"><span class="lineNum">      21 </span>            : class _TvShowEpisodesPageState extends State&lt;TvShowEpisodesPage&gt; {</a>
+<a name="22"><span class="lineNum">      22 </span><span class="lineNoCov">          0 :   @override</span></a>
+<a name="23"><span class="lineNum">      23 </span>            :   void initState() {</a>
+<a name="24"><span class="lineNum">      24 </span><span class="lineNoCov">          0 :     super.initState();</span></a>
+<a name="25"><span class="lineNum">      25 </span><span class="lineNoCov">          0 :     Future.microtask(() {</span></a>
+<a name="26"><span class="lineNum">      26 </span><span class="lineNoCov">          0 :       context</span></a>
+<a name="27"><span class="lineNum">      27 </span><span class="lineNoCov">          0 :           .read&lt;TvShowEpisodesBloc&gt;()</span></a>
+<a name="28"><span class="lineNum">      28 </span><span class="lineNoCov">          0 :           .add(FetchTvShowEpisodes(widget.id, widget.season));</span></a>
+<a name="29"><span class="lineNum">      29 </span>            :     });</a>
+<a name="30"><span class="lineNum">      30 </span>            :   }</a>
+<a name="31"><span class="lineNum">      31 </span>            : </a>
+<a name="32"><span class="lineNum">      32 </span><span class="lineNoCov">          0 :   @override</span></a>
+<a name="33"><span class="lineNum">      33 </span>            :   Widget build(BuildContext context) {</a>
+<a name="34"><span class="lineNum">      34 </span><span class="lineNoCov">          0 :     return BlocBuilder&lt;TvShowEpisodesBloc, TvShowEpisodesState&gt;(</span></a>
+<a name="35"><span class="lineNum">      35 </span><span class="lineNoCov">          0 :       builder: (context, state) {</span></a>
+<a name="36"><span class="lineNum">      36 </span><span class="lineNoCov">          0 :         if (state is TvShowEpisodesLoading) {</span></a>
+<a name="37"><span class="lineNum">      37 </span><span class="lineNoCov">          0 :           return Center(child: CircularProgressIndicator());</span></a>
+<a name="38"><span class="lineNum">      38 </span><span class="lineNoCov">          0 :         } else if (state is TvShowEpisodesHasData) {</span></a>
+<a name="39"><span class="lineNum">      39 </span><span class="lineNoCov">          0 :           return SafeArea(</span></a>
+<a name="40"><span class="lineNum">      40 </span><span class="lineNoCov">          0 :             child: TvShowEpisodesBodyPage(tvShowEpisodes: state.result),</span></a>
+<a name="41"><span class="lineNum">      41 </span>            :           );</a>
+<a name="42"><span class="lineNum">      42 </span><span class="lineNoCov">          0 :         } else if (state is TvShowEpisodesError) {</span></a>
+<a name="43"><span class="lineNum">      43 </span><span class="lineNoCov">          0 :           return Text(state.message);</span></a>
+<a name="44"><span class="lineNum">      44 </span>            :         } else {</a>
+<a name="45"><span class="lineNum">      45 </span><span class="lineNoCov">          0 :           return Container();</span></a>
+<a name="46"><span class="lineNum">      46 </span>            :         }</a>
+<a name="47"><span class="lineNum">      47 </span>            :       },</a>
+<a name="48"><span class="lineNum">      48 </span>            :     );</a>
+<a name="49"><span class="lineNum">      49 </span>            :   }</a>
+<a name="50"><span class="lineNum">      50 </span>            : }</a>
 </pre>
       </td>
     </tr>
