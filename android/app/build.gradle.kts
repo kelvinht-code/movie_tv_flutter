@@ -2,6 +2,8 @@ buildscript {
     val kotlin_version by extra("1.8.10")  // Define the Kotlin version using 'extra'
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
+        //classpath("com.google.gms:google-services:4.3.13") // Google Services plugin
+
     }
 }
 
@@ -10,6 +12,9 @@ plugins {
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+    // Add the Crashlytics Gradle plugin
+    id("com.google.firebase.crashlytics")
+    //id("com.google.gms.google-services") // Google Services plugin
 }
 
 android {
@@ -33,7 +38,8 @@ android {
         applicationId = "com.kelvinht.movie_tv_level_maximum"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        // minSdk = flutter.minSdkVersion
+        minSdk = 23
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -55,6 +61,12 @@ dependencies {
     // Optional dependencies for window support
     implementation("androidx.window:window:1.0.0")
     implementation("androidx.window:window-java:1.0.0")
+
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-analytics")
+
+    implementation("com.google.firebase:firebase-auth:21.0.1") // Firebase Authentication
+    implementation("com.google.firebase:firebase-core:20.1.0")
 }
 
 flutter {

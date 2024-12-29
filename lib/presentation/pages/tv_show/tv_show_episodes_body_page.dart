@@ -1,10 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:movie_tv_level_maximum/common/constants.dart';
 import 'package:movie_tv_level_maximum/domain/entities/tv_show/episode_tv_show.dart';
 import 'package:movie_tv_level_maximum/domain/entities/tv_show/tv_show_episode.dart';
-
-import '../../../common/constants.dart';
 
 class TvShowEpisodesBodyPage extends StatelessWidget {
   final TvShowEpisode tvShowEpisodes;
@@ -23,8 +22,7 @@ class TvShowEpisodesBodyPage extends StatelessWidget {
         tvShowEpisodes.posterPath != ''
             ? CachedNetworkImage(
                 key: ValueKey('ImageTvShowDetail'),
-                imageUrl:
-                    'https://image.tmdb.org/t/p/w500${tvShowEpisodes.posterPath}',
+                imageUrl: '$BASE_IMAGE_URL${tvShowEpisodes.posterPath}',
                 width: screenWidth,
                 placeholder: (context, url) => Center(
                   child: CircularProgressIndicator(),
@@ -82,10 +80,7 @@ class TvShowEpisodesBodyPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    tvShowEpisodes.name,
-                    style: kHeading5,
-                  ),
+                  Text(tvShowEpisodes.name, style: kHeading5),
                   Row(
                     children: [
                       RatingBarIndicator(
@@ -101,26 +96,18 @@ class TvShowEpisodesBodyPage extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 16),
-                  Text(
-                    'Overview',
-                    style: kHeading6,
-                  ),
+                  Text('Overview', style: kHeading6),
                   Text(
                     tvShowEpisodes.overview.isNotEmpty
                         ? tvShowEpisodes.overview
                         : 'Nothing Overview',
                   ),
                   SizedBox(height: 16),
-                  Text(
-                    'All Episodes',
-                    style: kHeading6,
-                  ),
+                  Text('All Episodes', style: kHeading6),
                   SizedBox(height: 5),
                   SizedBox(
                     height: 1,
-                    child: Container(
-                      color: Colors.grey,
-                    ),
+                    child: Container(color: Colors.grey),
                   ),
                   SizedBox(height: 5),
                   _listEpisodes(context, tvShowEpisodes.episodes),

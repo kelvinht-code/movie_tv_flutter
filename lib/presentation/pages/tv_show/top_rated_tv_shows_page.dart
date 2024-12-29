@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:movie_tv_level_maximum/presentation/provider/tv_show/top_rated_tv_shows_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/widgets/tv_show_card_list.dart';
-import 'package:provider/provider.dart';
 
-import '../../../common/state_enum.dart';
+import '../../bloc/tv_show/list/tv_show_list_bloc.dart';
 
 class TopRatedTvShowsPage extends StatefulWidget {
   static const ROUTE_NAME = '/topRated-tvShow';
@@ -18,39 +17,35 @@ class _TopRatedTvShowsPage extends State<TopRatedTvShowsPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<TopRatedTvShowsNotifier>(context, listen: false)
-            .fetchTopRatedTvShows());
+    Future.microtask(
+      () => context.read<TopRatedTvShowBloc>().add(FetchTopRatedTvShows()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Popular Movies'),
+        title: Text('Top Rated TV Shows'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<TopRatedTvShowsNotifier>(
-          builder: (context, data, child) {
-            if (data.state == RequestState.Loading) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (data.state == RequestState.Loaded) {
+        child: BlocBuilder<TopRatedTvShowBloc, TvShowListState>(
+          builder: (context, state) {
+            if (state is TvShowListLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is TvShowListHasData) {
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  final tvShow = data.tvShows[index];
+                  final tvShow = state.result[index];
                   return TvShowCard(tvShow);
                 },
-                itemCount: data.tvShows.length,
+                itemCount: state.result.length,
               );
-            } else {
-              return Center(
-                key: Key('error_message'),
-                child: Text(data.message),
-              );
+            } else if (state is TvShowListError) {
+              return Center(child: Text(state.message));
             }
+            return SizedBox();
           },
         ),
       ),

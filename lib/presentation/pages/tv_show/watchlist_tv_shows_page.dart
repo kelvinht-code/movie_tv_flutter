@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:movie_tv_level_maximum/presentation/provider/tv_show/watchlist_tv_show_notifier.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/watchlist/tv_show_watchlist_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/widgets/tv_show_card_list.dart';
-import 'package:provider/provider.dart';
 
-import '../../../common/state_enum.dart';
 import '../../../common/utils.dart';
 
 class WatchlistTvShowsPage extends StatefulWidget {
@@ -20,9 +19,8 @@ class _WatchlistTvShowsPageState extends State<WatchlistTvShowsPage>
   @override
   void initState() {
     super.initState();
-    Future.microtask(() =>
-        Provider.of<WatchlistTvShowNotifier>(context, listen: false)
-            .fetchWatchlistTvShows());
+    Future.microtask(
+        () => context.read<TvShowWatchlistBloc>().add(FetchTvShowWatchlist()));
   }
 
   @override
@@ -33,8 +31,7 @@ class _WatchlistTvShowsPageState extends State<WatchlistTvShowsPage>
 
   @override
   void didPopNext() {
-    Provider.of<WatchlistTvShowNotifier>(context, listen: false)
-        .fetchWatchlistTvShows();
+    context.read<TvShowWatchlistBloc>().add(FetchTvShowWatchlist());
   }
 
   @override
@@ -51,25 +48,25 @@ class _WatchlistTvShowsPageState extends State<WatchlistTvShowsPage>
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Consumer<WatchlistTvShowNotifier>(
-          builder: (context, data, child) {
-            if (data.watchlistState == RequestState.Loading) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (data.watchlistState == RequestState.Loaded) {
+        child: BlocBuilder<TvShowWatchlistBloc, TvShowWatchlistState>(
+          builder: (context, state) {
+            if (state is TvShowWatchlistLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is TvShowWatchlistHasData) {
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  final tvShow = data.watchlistTvShows[index];
+                  final tvShow = state.result[index];
                   return TvShowCard(tvShow);
                 },
-                itemCount: data.watchlistTvShows.length,
+                itemCount: state.result.length,
               );
-            } else {
+            } else if (state is TvShowWatchlistError) {
               return Center(
                 key: Key('error_message'),
-                child: Text(data.message),
+                child: Text(state.message),
               );
+            } else {
+              return Container();
             }
           },
         ),
