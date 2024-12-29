@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:movie_tv_level_maximum/domain/entities/movie/movie_detail.dart';
 import 'package:movie_tv_level_maximum/domain/use_cases/movie/get_watchlist_status.dart';
 import 'package:movie_tv_level_maximum/domain/use_cases/movie/remove_watchlist.dart';

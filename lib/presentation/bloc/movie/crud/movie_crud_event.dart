@@ -1,6 +1,9 @@
 part of 'movie_crud_bloc.dart';
 
-abstract class MovieCrudEvent {}
+abstract class MovieCrudEvent extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
 class AddToWatchlist extends MovieCrudEvent {
   final MovieDetail movie;
