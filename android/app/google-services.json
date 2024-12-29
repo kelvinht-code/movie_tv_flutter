@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "780151600191",
+    "project_id": "ditonton-14cef",
+    "storage_bucket": "ditonton-14cef.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:780151600191:android:9a3b82db91e88f8227748a",
+        "android_client_info": {
+          "package_name": "com.kelvin.movie_tv_level_maximum"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVjgmf87BQMHOp-2-4EozgxCP1pq9kfQc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:780151600191:android:cdc7db5faf01f1ec27748a",
+        "android_client_info": {
+          "package_name": "com.kelvinht.movie_tv_level_maximum"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVjgmf87BQMHOp-2-4EozgxCP1pq9kfQc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
