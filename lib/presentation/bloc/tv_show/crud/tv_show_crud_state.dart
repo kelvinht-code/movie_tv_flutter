@@ -1,6 +1,9 @@
 part of 'tv_show_crud_bloc.dart';
 
-abstract class TvShowCrudState {}
+abstract class TvShowCrudState extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
 class TvShowCrudInitial extends TvShowCrudState {}
 

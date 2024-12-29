@@ -124,7 +124,7 @@ class _TvShowDetailBodyPageState extends State<TvShowDetailBodyPage> {
                   _recommendationTvShowWidget(),
                   SizedBox(height: 16),
                   Text('All Seasons and Episodes', style: kHeading6),
-                  _allSeasons(widget.tvShow.seasons),
+                  allSeasons(widget.tvShow.seasons),
                 ],
               ),
             ),
@@ -245,10 +245,11 @@ class _TvShowDetailBodyPageState extends State<TvShowDetailBodyPage> {
     );
   }
 
-  Widget _allSeasons(List<TvShowSeason> listSeasons) {
+  Widget allSeasons(List<TvShowSeason> listSeasons) {
     return SizedBox(
       height: 200,
       child: ListView.builder(
+        key: const ValueKey('ListSeasonTvShow'),
         scrollDirection: Axis.horizontal,
         itemCount: listSeasons.length,
         itemBuilder: (context, index) {
