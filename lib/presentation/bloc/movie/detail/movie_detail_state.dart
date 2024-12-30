@@ -14,11 +14,11 @@ class MovieDetailLoading extends MovieDetailState {}
 class MovieDetailError extends MovieDetailState {
   final String message;
 
-  MovieDetailError(this.message);
+  const MovieDetailError(this.message);
 }
 
 class MovieDetailHasData extends MovieDetailState {
   final MovieDetail result;
 
-  MovieDetailHasData(this.result);
+  const MovieDetailHasData(this.result);
 }
