@@ -385,7 +385,6 @@ void main() {
       expect(result, equals(Right(testEpisodeTvShow))); // testEpisodeTvShow adalah hasil konversi
     });*/
 
-
     test('Should return ServerFailure when a ServerException is thrown',
         () async {
       when(mockTvShowRemoteDataSource.getAllEpisodes(tId, tSeason))

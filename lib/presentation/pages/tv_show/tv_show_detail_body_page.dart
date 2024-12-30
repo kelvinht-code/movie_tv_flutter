@@ -219,16 +219,16 @@ class _TvShowDetailBodyPageState extends State<TvShowDetailBodyPage> {
                         Radius.circular(8),
                       ),
                       child: (tvShow.posterPath != null ||
-                          tvShow.posterPath != '')
+                              tvShow.posterPath != '')
                           ? CachedNetworkImage(
-                        key: ValueKey('ImageTvShowDetail'),
-                        imageUrl: '$BASE_IMAGE_URL${tvShow.posterPath}',
-                        placeholder: (context, url) => Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        errorWidget: (context, url, error) =>
-                            Icon(Icons.error),
-                      )
+                              key: ValueKey('ImageTvShowDetail'),
+                              imageUrl: '$BASE_IMAGE_URL${tvShow.posterPath}',
+                              placeholder: (context, url) => Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
+                            )
                           : Icon(Icons.broken_image),
                     ),
                   ),
@@ -273,13 +273,13 @@ class _TvShowDetailBodyPageState extends State<TvShowDetailBodyPage> {
                 ),
                 child: (season.posterPath.isNotEmpty)
                     ? CachedNetworkImage(
-                  key: ValueKey('ImageTvShowDetail'),
-                  imageUrl: '$BASE_IMAGE_URL${widget.tvShow.posterPath}',
-                  placeholder: (context, url) => Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                )
+                        key: ValueKey('ImageTvShowDetail'),
+                        imageUrl: '$BASE_IMAGE_URL${widget.tvShow.posterPath}',
+                        placeholder: (context, url) => Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      )
                     : Icon(Icons.broken_image),
               ),
             ),

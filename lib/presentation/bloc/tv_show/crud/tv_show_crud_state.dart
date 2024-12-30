@@ -26,4 +26,3 @@ class TvShowCrudStatus extends TvShowCrudState {
 
   TvShowCrudStatus(this.isInWatchlist);
 }
-

@@ -2,7 +2,7 @@ part of 'search_tv_show_bloc.dart';
 
 abstract class SearchTvShowState extends Equatable {
   const SearchTvShowState();
-  
+
   @override
   List<Object?> get props => [];
 }

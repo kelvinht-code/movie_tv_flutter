@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:movie_tv_level_maximum/domain/entities/movie/movie.dart';

@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:http/io_client.dart';
-import 'package:movie_tv_level_maximum/common/ssl_pinning.dart';
 import 'package:movie_tv_level_maximum/data/models/tv_show/tv_show_detail_response.dart';
 import 'package:movie_tv_level_maximum/data/models/tv_show/tv_show_episodes_response.dart';
 import 'package:movie_tv_level_maximum/data/models/tv_show/tv_show_model.dart';
