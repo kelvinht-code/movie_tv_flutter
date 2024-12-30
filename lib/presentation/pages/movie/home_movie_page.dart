@@ -105,18 +105,22 @@ class HomeMoviePageState extends State<HomeMoviePage> {
       appBar: AppBar(
         title: Text('Ditonton'),
         actions: [
-          IconButton(
-            onPressed: () {
-              /*if (indexTab == 1) {
-                // FirebaseCrashlytics.instance.crash(); - Test for Crash
-                Navigator.pushNamed(context, SearchPage.routeName);
-              } else if (indexTab == 3) {
-                // FirebaseCrashlytics.instance.crash(); - Test for Crash
-                Navigator.pushNamed(context, SearchTvShowPage.routeName);
-              }*/
+          BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, state) {
+              return IconButton(
+                onPressed: () {
+                  if (state.currentTab == 0) {
+                    // FirebaseCrashlytics.instance.crash(); - Test for Crash
+                    Navigator.pushNamed(context, SearchPage.routeName);
+                  } else if (state.currentTab == 2) {
+                    // FirebaseCrashlytics.instance.crash(); - Test for Crash
+                    Navigator.pushNamed(context, SearchTvShowPage.routeName);
+                  }
+                },
+                icon: Icon(Icons.search),
+              );
             },
-            icon: Icon(Icons.search),
-          )
+          ),
         ],
       ),
       body: Padding(
