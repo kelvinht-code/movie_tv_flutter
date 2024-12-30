@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_tv_level_maximum/common/ssl_pinning.dart';
 import 'package:movie_tv_level_maximum/injection.dart' as di;
+import 'package:movie_tv_level_maximum/presentation/bloc/home/home_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/crud/movie_crud_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/detail/movie_detail_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/list/movie_list_bloc.dart';
@@ -57,6 +58,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (_) => HomeBloc(),
+        ),
         BlocProvider(
           create: (_) => di.locator<NowPlayingMovieBloc>(),
         ),
