@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/home/home_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/list/movie_list_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/list/tv_show_list_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/movie/movie_page_widget.dart';
@@ -19,7 +20,7 @@ class HomeMoviePage extends StatefulWidget {
 }
 
 class HomeMoviePageState extends State<HomeMoviePage> {
-  int indexTab = 1;
+  //int indexTab = 1;
 
   @override
   void initState() {
@@ -62,9 +63,7 @@ class HomeMoviePageState extends State<HomeMoviePage> {
               leading: Icon(Icons.movie),
               title: Text('Movies'),
               onTap: () {
-                setState(() {
-                  indexTab = 1;
-                });
+                context.read<HomeBloc>().add(ChangeTabEvent(0));
                 Navigator.pop(context);
               },
             ),
@@ -72,9 +71,7 @@ class HomeMoviePageState extends State<HomeMoviePage> {
               leading: Icon(Icons.save_alt),
               title: Text('Watchlist'),
               onTap: () {
-                setState(() {
-                  indexTab = 2;
-                });
+                context.read<HomeBloc>().add(ChangeTabEvent(1));
                 Navigator.pushNamed(context, WatchlistMoviesPage.routeName);
               },
             ),
@@ -82,9 +79,7 @@ class HomeMoviePageState extends State<HomeMoviePage> {
               leading: Icon(Icons.tv),
               title: Text('TV Shows'),
               onTap: () {
-                setState(() {
-                  indexTab = 3;
-                });
+                context.read<HomeBloc>().add(ChangeTabEvent(2));
                 Navigator.pop(context);
               },
             ),
@@ -92,17 +87,13 @@ class HomeMoviePageState extends State<HomeMoviePage> {
               leading: Icon(Icons.watch_later),
               title: Text('Watchlist TV Show'),
               onTap: () {
-                setState(() {
-                  indexTab = 4;
-                });
+                context.read<HomeBloc>().add(ChangeTabEvent(3));
                 Navigator.pushNamed(context, WatchlistTvShowsPage.routeName);
               },
             ),
             ListTile(
               onTap: () {
-                setState(() {
-                  indexTab = 5;
-                });
+                context.read<HomeBloc>().add(ChangeTabEvent(4));
                 Navigator.pushNamed(context, AboutPage.routeName);
               },
               leading: Icon(Icons.info_outline),
@@ -114,28 +105,37 @@ class HomeMoviePageState extends State<HomeMoviePage> {
       appBar: AppBar(
         title: Text('Ditonton'),
         actions: [
-          IconButton(
-            onPressed: () {
-              if (indexTab == 1) {
-                // FirebaseCrashlytics.instance.crash(); - Test for Crash
-                Navigator.pushNamed(context, SearchPage.routeName);
-              } else if (indexTab == 3) {
-                // FirebaseCrashlytics.instance.crash(); - Test for Crash
-                Navigator.pushNamed(context, SearchTvShowPage.routeName);
-              }
+          BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, state) {
+              return IconButton(
+                onPressed: () {
+                  if (state.currentTab == 0) {
+                    // FirebaseCrashlytics.instance.crash(); - Test for Crash
+                    Navigator.pushNamed(context, SearchPage.routeName);
+                  } else if (state.currentTab == 2) {
+                    // FirebaseCrashlytics.instance.crash(); - Test for Crash
+                    Navigator.pushNamed(context, SearchTvShowPage.routeName);
+                  }
+                },
+                icon: Icon(Icons.search),
+              );
             },
-            icon: Icon(Icons.search),
-          )
+          ),
         ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
-          child: indexTab == 1
-              ? MoviePageWidget()
-              : indexTab == 3
-                  ? TvShowPageWidget()
-                  : SizedBox(),
+          child: BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, state) {
+              if (state.currentTab == 0) {
+                return MoviePageWidget();
+              } else if (state.currentTab == 2) {
+                return TvShowPageWidget();
+              }
+              return SizedBox();
+            },
+          ),
         ),
       ),
     );
