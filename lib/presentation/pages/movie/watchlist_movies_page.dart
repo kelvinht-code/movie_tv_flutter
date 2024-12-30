@@ -47,13 +47,18 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
             if (state is MovieWatchlistLoading) {
               return Center(child: CircularProgressIndicator());
             } else if (state is MovieWatchlistHasData) {
-              return ListView.builder(
-                itemCount: state.result.length,
-                itemBuilder: (context, index) {
-                  final movie = state.result[index];
-                  return MovieCard(movie);
-                },
-              );
+              return (state.result.length > 0)
+                  ? ListView.builder(
+                      itemCount: state.result.length,
+                      itemBuilder: (context, index) {
+                        final movie = state.result[index];
+                        return MovieCard(movie);
+                      },
+                    )
+                  : Center(
+                      key: ValueKey('EmptyWatchlistMovie'),
+                      child: Text('No Data Watchlist Movie'),
+                    );
             } else if (state is MovieWatchlistError) {
               return Center(
                 key: Key('error_message'),

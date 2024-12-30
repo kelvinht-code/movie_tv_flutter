@@ -53,13 +53,18 @@ class _WatchlistTvShowsPageState extends State<WatchlistTvShowsPage>
             if (state is TvShowWatchlistLoading) {
               return Center(child: CircularProgressIndicator());
             } else if (state is TvShowWatchlistHasData) {
-              return ListView.builder(
-                itemBuilder: (context, index) {
-                  final tvShow = state.result[index];
-                  return TvShowCard(tvShow);
-                },
-                itemCount: state.result.length,
-              );
+              return (state.result.length > 0)
+                  ? ListView.builder(
+                      itemCount: state.result.length,
+                      itemBuilder: (context, index) {
+                        final tvShow = state.result[index];
+                        return TvShowCard(tvShow);
+                      },
+                    )
+                  : Center(
+                      key: ValueKey('EmptyWatchlistTvShow'),
+                      child: Text('No Data Watchlist TV Show'),
+                    );
             } else if (state is TvShowWatchlistError) {
               return Center(
                 key: Key('error_message'),
