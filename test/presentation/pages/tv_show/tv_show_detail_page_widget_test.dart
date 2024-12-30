@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:movie_tv_level_maximum/domain/entities/tv_show/tv_show.dart';
-import 'package:movie_tv_level_maximum/domain/entities/tv_show/tv_show_season.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/crud/tv_show_crud_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/detail/tv_show_detail_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/recommendation/tv_show_recommendation_bloc.dart';
@@ -48,17 +47,6 @@ void main() {
   );
 
   final tTvShowList = <TvShow>[tTvShow];
-
-  final tSeasonTvShow = TvShowSeason(
-    airDate: DateTime.parse('2024-12-31'),
-    episodeCount: 1,
-    id: 1,
-    name: "name",
-    overview: "overview",
-    posterPath: "posterPath",
-    seasonNumber: 1,
-    voteAverage: 1.0,
-  );
 
   void mockStreamLoadingState() {
     when(mockTvShowDetailBloc.state).thenReturn(TvShowDetailLoading());

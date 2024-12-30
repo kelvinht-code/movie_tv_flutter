@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_tv_level_maximum/common/ssl_pinning.dart';
 import 'package:movie_tv_level_maximum/injection.dart' as di;
+import 'package:movie_tv_level_maximum/presentation/bloc/home/home_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/crud/movie_crud_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/detail/movie_detail_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/list/movie_list_bloc.dart';
@@ -33,7 +35,6 @@ import 'package:movie_tv_level_maximum/presentation/pages/tv_show/top_rated_tv_s
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_detail_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_episodes_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/watchlist_tv_shows_page.dart';
-import 'package:provider/provider.dart';
 
 import 'common/constants.dart';
 import 'common/utils.dart';
@@ -44,7 +45,6 @@ Future<void> main() async {
   await HttpSSLPinning.init();
   di.init();
   GoogleFonts.config.allowRuntimeFetching = false;
-  //WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -53,12 +53,17 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+    return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (_) => HomeBloc(),
+        ),
         BlocProvider(
           create: (_) => di.locator<NowPlayingMovieBloc>(),
         ),
@@ -124,44 +129,47 @@ class MyApp extends StatelessWidget {
           drawerTheme: kDrawerTheme,
         ),
         home: HomeMoviePage(),
-        navigatorObservers: [routeObserver],
+        navigatorObservers: [
+          routeObserver,
+          FirebaseAnalyticsObserver(analytics: analytics),
+        ],
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case '/home':
               return MaterialPageRoute(builder: (_) => HomeMoviePage());
-            case PopularMoviesPage.ROUTE_NAME:
+            case PopularMoviesPage.routeName:
               return CupertinoPageRoute(builder: (_) => PopularMoviesPage());
-            case TopRatedMoviesPage.ROUTE_NAME:
+            case TopRatedMoviesPage.routeName:
               return CupertinoPageRoute(builder: (_) => TopRatedMoviesPage());
-            case MovieDetailPage.ROUTE_NAME:
+            case MovieDetailPage.routeName:
               final id = settings.arguments as int;
               return MaterialPageRoute(
                 builder: (_) => MovieDetailPage(id: id),
                 settings: settings,
               );
-            case SearchPage.ROUTE_NAME:
+            case SearchPage.routeName:
               return CupertinoPageRoute(builder: (_) => SearchPage());
-            case WatchlistMoviesPage.ROUTE_NAME:
+            case WatchlistMoviesPage.routeName:
               return MaterialPageRoute(builder: (_) => WatchlistMoviesPage());
-            case AboutPage.ROUTE_NAME:
+            case AboutPage.routeName:
               return MaterialPageRoute(builder: (_) => AboutPage());
-            case OnTheAirTvShowsPage.ROUTE_NAME:
+            case OnTheAirTvShowsPage.routeName:
               return CupertinoPageRoute(builder: (_) => OnTheAirTvShowsPage());
-            case PopularTvShowsPage.ROUTE_NAME:
+            case PopularTvShowsPage.routeName:
               return CupertinoPageRoute(builder: (_) => PopularTvShowsPage());
-            case TopRatedTvShowsPage.ROUTE_NAME:
+            case TopRatedTvShowsPage.routeName:
               return CupertinoPageRoute(builder: (_) => TopRatedTvShowsPage());
-            case TvShowDetailPage.ROUTE_NAME:
+            case TvShowDetailPage.routeName:
               final id = settings.arguments as int;
               return MaterialPageRoute(
                 builder: (_) => TvShowDetailPage(id: id),
                 settings: settings,
               );
-            case SearchTvShowPage.ROUTE_NAME:
+            case SearchTvShowPage.routeName:
               return CupertinoPageRoute(builder: (_) => SearchTvShowPage());
-            case WatchlistTvShowsPage.ROUTE_NAME:
+            case WatchlistTvShowsPage.routeName:
               return MaterialPageRoute(builder: (_) => WatchlistTvShowsPage());
-            case TvShowEpisodesPage.ROUTE_NAME:
+            case TvShowEpisodesPage.routeName:
               final args = settings.arguments as Map<String, dynamic>?;
               if (args != null) {
                 final id = args['id'] as int?;

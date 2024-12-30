@@ -24,7 +24,7 @@ class TvShowList extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(
                   context,
-                  TvShowDetailPage.ROUTE_NAME,
+                  TvShowDetailPage.routeName,
                   arguments: tvShow.id,
                 );
               },
@@ -32,7 +32,7 @@ class TvShowList extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(16)),
                 child: (tvShow.posterPath != '')
                     ? CachedNetworkImage(
-                        imageUrl: '$BASE_IMAGE_URL${tvShow.posterPath}',
+                        imageUrl: '$baseImageUrl${tvShow.posterPath}',
                         placeholder: (context, url) => Center(
                           child: CircularProgressIndicator(),
                         ),

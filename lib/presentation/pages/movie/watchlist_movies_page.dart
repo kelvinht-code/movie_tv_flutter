@@ -6,21 +6,24 @@ import '../../../common/utils.dart';
 import '../../widgets/movie_card_list.dart';
 
 class WatchlistMoviesPage extends StatefulWidget {
-  static const ROUTE_NAME = '/watchlist-movie';
+  static const routeName = '/watchlist-movie';
 
   const WatchlistMoviesPage({super.key});
 
   @override
-  _WatchlistMoviesPageState createState() => _WatchlistMoviesPageState();
+  WatchlistMoviesPageState createState() => WatchlistMoviesPageState();
 }
 
-class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
+class WatchlistMoviesPageState extends State<WatchlistMoviesPage>
     with RouteAware {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-        () => context.read<MovieWatchlistBloc>().add(FetchMovieWatchlist()));
+    Future.microtask(() {
+      if (mounted) {
+        context.read<MovieWatchlistBloc>().add(FetchMovieWatchlist());
+      }
+    });
   }
 
   @override
@@ -47,13 +50,18 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
             if (state is MovieWatchlistLoading) {
               return Center(child: CircularProgressIndicator());
             } else if (state is MovieWatchlistHasData) {
-              return ListView.builder(
-                itemCount: state.result.length,
-                itemBuilder: (context, index) {
-                  final movie = state.result[index];
-                  return MovieCard(movie);
-                },
-              );
+              return (state.result.isNotEmpty)
+                  ? ListView.builder(
+                      itemCount: state.result.length,
+                      itemBuilder: (context, index) {
+                        final movie = state.result[index];
+                        return MovieCard(movie);
+                      },
+                    )
+                  : Center(
+                      key: ValueKey('EmptyWatchlistMovie'),
+                      child: Text('No Data Watchlist Movie'),
+                    );
             } else if (state is MovieWatchlistError) {
               return Center(
                 key: Key('error_message'),

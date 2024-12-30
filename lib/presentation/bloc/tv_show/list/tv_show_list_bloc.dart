@@ -32,8 +32,8 @@ class OnTheAirTvShowBloc extends Bloc<TvShowListEvent, TvShowListState> {
       emit(TvShowListLoading());
       final result = await getOnTheAirTvShow.execute();
       result.fold(
-            (failure) => emit(TvShowListError(failure.message)),
-            (tvShows) => emit(TvShowListHasData(tvShows)),
+        (failure) => emit(TvShowListError(failure.message)),
+        (tvShows) => emit(TvShowListHasData(tvShows)),
       );
     });
   }
@@ -47,8 +47,8 @@ class PopularTvShowBloc extends Bloc<TvShowListEvent, TvShowListState> {
       emit(TvShowListLoading());
       final result = await getPopularTvShow.execute();
       result.fold(
-            (failure) => emit(TvShowListError(failure.message)),
-            (tvShows) => emit(TvShowListHasData(tvShows)),
+        (failure) => emit(TvShowListError(failure.message)),
+        (tvShows) => emit(TvShowListHasData(tvShows)),
       );
     });
   }
@@ -62,10 +62,9 @@ class TopRatedTvShowBloc extends Bloc<TvShowListEvent, TvShowListState> {
       emit(TvShowListLoading());
       final result = await getTopRatedTvShow.execute();
       result.fold(
-            (failure) => emit(TvShowListError(failure.message)),
-            (tvShows) => emit(TvShowListHasData(tvShows)),
+        (failure) => emit(TvShowListError(failure.message)),
+        (tvShows) => emit(TvShowListHasData(tvShows)),
       );
     });
   }
 }
-

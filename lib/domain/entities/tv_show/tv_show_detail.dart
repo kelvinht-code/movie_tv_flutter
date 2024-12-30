@@ -29,7 +29,7 @@ class TvShowDetail extends Equatable {
   final double voteAverage;
   final int voteCount;
 
-  TvShowDetail({
+  const TvShowDetail({
     required this.adult,
     required this.backdropPath,
     required this.episodeRunTime,

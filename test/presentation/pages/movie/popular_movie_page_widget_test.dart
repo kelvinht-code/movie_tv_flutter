@@ -64,7 +64,7 @@ void main() {
   testWidgets('Initial for Empty State', (WidgetTester tester) async {
     when(mockPopularMovieBloc.state).thenReturn(MovieListEmpty());
     when(mockPopularMovieBloc.stream).thenAnswer(
-          (_) => Stream.value(MovieListEmpty()),
+      (_) => Stream.value(MovieListEmpty()),
     );
 
     await tester.pumpWidget(makeTestableWidget());

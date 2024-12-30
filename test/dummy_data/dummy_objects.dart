@@ -30,8 +30,7 @@ final testMovie2 = Movie(
   genreIds: [14, 28],
   id: 557,
   originalTitle: 'Spider-Man',
-  overview:
-  'overview',
+  overview: 'overview',
   popularity: 60.441,
   posterPath: '/rweIrveL43TaxUN0akQEaAXL6x0.jpg',
   releaseDate: '2002-05-01',

@@ -11,25 +11,27 @@ import '../../../domain/entities/movie/genre.dart';
 import '../../../domain/entities/movie/movie_detail.dart';
 
 class MovieDetailPage extends StatefulWidget {
-  static const ROUTE_NAME = '/detail';
+  static const routeName = '/detail';
 
   final int id;
   const MovieDetailPage({super.key, required this.id});
 
   @override
-  _MovieDetailPageState createState() => _MovieDetailPageState();
+  MovieDetailPageState createState() => MovieDetailPageState();
 }
 
-class _MovieDetailPageState extends State<MovieDetailPage> {
+class MovieDetailPageState extends State<MovieDetailPage> {
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<MovieDetailBloc>().add(FetchMovieDetail(widget.id));
-      context
-          .read<MovieRecommendationBloc>()
-          .add(FetchMovieRecommendation(widget.id));
-      context.read<MovieCrudBloc>().add(CheckIsWatchlist(widget.id));
+      if (mounted) {
+        context.read<MovieDetailBloc>().add(FetchMovieDetail(widget.id));
+        context
+            .read<MovieRecommendationBloc>()
+            .add(FetchMovieRecommendation(widget.id));
+        context.read<MovieCrudBloc>().add(CheckIsWatchlist(widget.id));
+      }
     });
   }
 
@@ -64,6 +66,7 @@ class DetailContent extends StatelessWidget {
   final MovieDetail movie;
 
   const DetailContent({
+    super.key,
     required this.movie,
   });
 
@@ -73,7 +76,7 @@ class DetailContent extends StatelessWidget {
     return Stack(
       children: [
         CachedNetworkImage(
-          imageUrl: '$BASE_IMAGE_URL${movie.posterPath}',
+          imageUrl: '$baseImageUrl${movie.posterPath}',
           width: screenWidth,
           placeholder: (context, url) => Center(
             child: CircularProgressIndicator(),
@@ -169,12 +172,10 @@ class DetailContent extends StatelessWidget {
     return BlocListener<MovieCrudBloc, MovieCrudState>(
       listener: (context, state) {
         if (state is MovieCrudSuccess) {
-          print('Success Flow');
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message)),
           );
         } else if (state is MovieCrudFailure) {
-          print('Failed Flow');
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message)),
           );
@@ -186,17 +187,14 @@ class DetailContent extends StatelessWidget {
           if (state is MovieCrudStatus) {
             isInWatchlist = state.isInWatchlist;
           }
-          print('isInWatchlist: $isInWatchlist');
           return Column(
             children: [
               FilledButton(
                 onPressed: () async {
                   final movieCrudBloc = context.read<MovieCrudBloc>();
                   if (isInWatchlist) {
-                    print('Remove movie');
                     movieCrudBloc.add(RemoveFromWatchlist(movie));
                   } else {
-                    print('Add movie');
                     movieCrudBloc.add(AddToWatchlist(movie));
                   }
                   movieCrudBloc.add(CheckIsWatchlist(movie.id));
@@ -238,7 +236,7 @@ class DetailContent extends StatelessWidget {
                     onTap: () {
                       Navigator.pushReplacementNamed(
                         context,
-                        MovieDetailPage.ROUTE_NAME,
+                        MovieDetailPage.routeName,
                         arguments: movie.id,
                       );
                     },
@@ -247,7 +245,7 @@ class DetailContent extends StatelessWidget {
                         Radius.circular(8),
                       ),
                       child: CachedNetworkImage(
-                        imageUrl: '$BASE_IMAGE_URL${movie.posterPath}',
+                        imageUrl: '$baseImageUrl${movie.posterPath}',
                         placeholder: (context, url) => Center(
                           child: CircularProgressIndicator(),
                         ),

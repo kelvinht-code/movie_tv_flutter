@@ -15,7 +15,6 @@ class SearchTvShowBloc extends Bloc<SearchTvShowEvent, SearchTvShowState> {
       (event, emit) async {
         final query = event.query;
 
-        print('Print Search Tv Show Bloc : $query');
         emit(SearchTvShowLoading());
         final result = await _searchTvShows.execute(query);
 

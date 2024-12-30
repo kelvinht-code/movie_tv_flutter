@@ -14,11 +14,11 @@ class TvShowWatchlistLoading extends TvShowWatchlistState {}
 class TvShowWatchlistError extends TvShowWatchlistState {
   final String message;
 
-  TvShowWatchlistError(this.message);
+  const TvShowWatchlistError(this.message);
 }
 
 class TvShowWatchlistHasData extends TvShowWatchlistState {
   final List<TvShow> result;
 
-  TvShowWatchlistHasData(this.result);
+  const TvShowWatchlistHasData(this.result);
 }

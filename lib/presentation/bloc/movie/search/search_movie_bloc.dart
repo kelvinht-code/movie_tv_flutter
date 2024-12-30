@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:movie_tv_level_maximum/domain/entities/movie/movie.dart';
@@ -16,7 +15,6 @@ class SearchMovieBloc extends Bloc<SearchMovieEvent, SearchMovieState> {
       (event, emit) async {
         final query = event.query;
 
-        print('Print Search Movie Bloc : $query');
         emit(SearchMovieLoading());
         final result = await _searchMovies.execute(query);
 

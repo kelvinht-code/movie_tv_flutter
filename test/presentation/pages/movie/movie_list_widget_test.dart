@@ -18,7 +18,6 @@ import 'package:movie_tv_level_maximum/presentation/bloc/movie/detail/movie_deta
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/recommendation/movie_recommendation_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/movie/movie_detail_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/movie/movie_list_widget.dart';
-import 'package:provider/provider.dart';
 
 import 'movie_list_widget_test.mocks.dart';
 
@@ -117,7 +116,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         routes: {
-          '/detail': (context) => MultiProvider(
+          '/detail': (context) => MultiBlocProvider(
                 providers: [
                   BlocProvider<MovieDetailBloc>(
                     create: (_) => MovieDetailBloc(mockGetMovieDetail),

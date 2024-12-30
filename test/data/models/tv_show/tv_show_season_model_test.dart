@@ -73,5 +73,4 @@ void main() {
       expect(tvShowSeasonModel, isNot(equals(tvShowSeasonModelB)));
     });
   });
-
 }

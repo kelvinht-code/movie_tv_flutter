@@ -1,5 +1,6 @@
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_tv_level_maximum/presentation/bloc/home/home_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/movie/list/movie_list_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/list/tv_show_list_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/movie/movie_page_widget.dart';
@@ -8,7 +9,6 @@ import 'package:movie_tv_level_maximum/presentation/pages/movie/watchlist_movies
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/search_tv_show_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_page_widget.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/watchlist_tv_shows_page.dart';
-import 'package:provider/provider.dart';
 
 import '../about_page.dart';
 
@@ -16,25 +16,29 @@ class HomeMoviePage extends StatefulWidget {
   const HomeMoviePage({super.key});
 
   @override
-  _HomeMoviePageState createState() => _HomeMoviePageState();
+  HomeMoviePageState createState() => HomeMoviePageState();
 }
 
-class _HomeMoviePageState extends State<HomeMoviePage> {
-  int indexTab = 1;
+class HomeMoviePageState extends State<HomeMoviePage> {
+  //int indexTab = 1;
 
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<NowPlayingMovieBloc>().add(FetchNowPlayingMovies());
-      context.read<PopularMovieBloc>().add(FetchPopularMovies());
-      context.read<TopRatedMovieBloc>().add(FetchTopRatedMovies());
+      if (mounted) {
+        context.read<NowPlayingMovieBloc>().add(FetchNowPlayingMovies());
+        context.read<PopularMovieBloc>().add(FetchPopularMovies());
+        context.read<TopRatedMovieBloc>().add(FetchTopRatedMovies());
+      }
     });
     Future.microtask(() {
-      context.read<AiringTodayTvShowBloc>().add(FetchAiringTodayTvShows());
-      context.read<OnTheAirTvShowBloc>().add(FetchOnTheAirTvShows());
-      context.read<PopularTvShowBloc>().add(FetchPopularTvShows());
-      context.read<TopRatedTvShowBloc>().add(FetchTopRatedTvShows());
+      if (mounted) {
+        context.read<AiringTodayTvShowBloc>().add(FetchAiringTodayTvShows());
+        context.read<OnTheAirTvShowBloc>().add(FetchOnTheAirTvShows());
+        context.read<PopularTvShowBloc>().add(FetchPopularTvShows());
+        context.read<TopRatedTvShowBloc>().add(FetchTopRatedTvShows());
+      }
     });
   }
 
@@ -59,9 +63,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
               leading: Icon(Icons.movie),
               title: Text('Movies'),
               onTap: () {
-                setState(() {
-                  indexTab = 1;
-                });
+                context.read<HomeBloc>().add(ChangeTabEvent(0));
                 Navigator.pop(context);
               },
             ),
@@ -69,19 +71,15 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
               leading: Icon(Icons.save_alt),
               title: Text('Watchlist'),
               onTap: () {
-                setState(() {
-                  indexTab = 2;
-                });
-                Navigator.pushNamed(context, WatchlistMoviesPage.ROUTE_NAME);
+                context.read<HomeBloc>().add(ChangeTabEvent(1));
+                Navigator.pushNamed(context, WatchlistMoviesPage.routeName);
               },
             ),
             ListTile(
               leading: Icon(Icons.tv),
               title: Text('TV Shows'),
               onTap: () {
-                setState(() {
-                  indexTab = 3;
-                });
+                context.read<HomeBloc>().add(ChangeTabEvent(2));
                 Navigator.pop(context);
               },
             ),
@@ -89,18 +87,14 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
               leading: Icon(Icons.watch_later),
               title: Text('Watchlist TV Show'),
               onTap: () {
-                setState(() {
-                  indexTab = 4;
-                });
-                Navigator.pushNamed(context, WatchlistTvShowsPage.ROUTE_NAME);
+                context.read<HomeBloc>().add(ChangeTabEvent(3));
+                Navigator.pushNamed(context, WatchlistTvShowsPage.routeName);
               },
             ),
             ListTile(
               onTap: () {
-                setState(() {
-                  indexTab = 5;
-                });
-                Navigator.pushNamed(context, AboutPage.ROUTE_NAME);
+                context.read<HomeBloc>().add(ChangeTabEvent(4));
+                Navigator.pushNamed(context, AboutPage.routeName);
               },
               leading: Icon(Icons.info_outline),
               title: Text('About'),
@@ -111,28 +105,37 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
       appBar: AppBar(
         title: Text('Ditonton'),
         actions: [
-          IconButton(
-            onPressed: () {
-              if (indexTab == 1) {
-                // FirebaseCrashlytics.instance.crash(); - Test for Crash
-                Navigator.pushNamed(context, SearchPage.ROUTE_NAME);
-              } else if (indexTab == 3) {
-                // FirebaseCrashlytics.instance.crash(); - Test for Crash
-                Navigator.pushNamed(context, SearchTvShowPage.ROUTE_NAME);
-              }
+          BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, state) {
+              return IconButton(
+                onPressed: () {
+                  if (state.currentTab == 0) {
+                    // FirebaseCrashlytics.instance.crash(); - Test for Crash
+                    Navigator.pushNamed(context, SearchPage.routeName);
+                  } else if (state.currentTab == 2) {
+                    // FirebaseCrashlytics.instance.crash(); - Test for Crash
+                    Navigator.pushNamed(context, SearchTvShowPage.routeName);
+                  }
+                },
+                icon: Icon(Icons.search),
+              );
             },
-            icon: Icon(Icons.search),
-          )
+          ),
         ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SingleChildScrollView(
-          child: indexTab == 1
-              ? MoviePageWidget()
-              : indexTab == 3
-                  ? TvShowPageWidget()
-                  : SizedBox(),
+          child: BlocBuilder<HomeBloc, HomeState>(
+            builder: (context, state) {
+              if (state.currentTab == 0) {
+                return MoviePageWidget();
+              } else if (state.currentTab == 2) {
+                return TvShowPageWidget();
+              }
+              return SizedBox();
+            },
+          ),
         ),
       ),
     );
