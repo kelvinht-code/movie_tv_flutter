@@ -2,7 +2,7 @@ buildscript {
     val kotlin_version by extra("1.8.10")  // Define the Kotlin version using 'extra'
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
-        //classpath("com.google.gms:google-services:4.3.13") // Google Services plugin
+        classpath("com.google.gms:google-services:4.3.13") // Google Services plugin
 
     }
 }
@@ -14,6 +14,7 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
     // Add the Crashlytics Gradle plugin
     id("com.google.firebase.crashlytics")
+    id("com.google.gms.google-services")
     //id("com.google.gms.google-services") // Google Services plugin
 }
 
@@ -59,6 +60,7 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
 
     // Optional dependencies for window support
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     implementation("androidx.window:window:1.0.0")
     implementation("androidx.window:window-java:1.0.0")
 
