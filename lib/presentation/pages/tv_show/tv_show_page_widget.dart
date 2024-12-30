@@ -35,7 +35,7 @@ class TvShowPageWidget extends StatelessWidget {
         _buildSubHeading(
           title: 'On The Air',
           onTap: () =>
-              Navigator.pushNamed(context, OnTheAirTvShowsPage.ROUTE_NAME),
+              Navigator.pushNamed(context, OnTheAirTvShowsPage.routeName),
         ),
         BlocBuilder<OnTheAirTvShowBloc, TvShowListState>(
           builder: (context, state) {
@@ -52,7 +52,7 @@ class TvShowPageWidget extends StatelessWidget {
         _buildSubHeading(
           title: 'Popular',
           onTap: () =>
-              Navigator.pushNamed(context, PopularTvShowsPage.ROUTE_NAME),
+              Navigator.pushNamed(context, PopularTvShowsPage.routeName),
         ),
         BlocBuilder<PopularTvShowBloc, TvShowListState>(
           builder: (context, state) {
@@ -69,7 +69,7 @@ class TvShowPageWidget extends StatelessWidget {
         _buildSubHeading(
           title: 'Top Rated',
           onTap: () =>
-              Navigator.pushNamed(context, TopRatedTvShowsPage.ROUTE_NAME),
+              Navigator.pushNamed(context, TopRatedTvShowsPage.routeName),
         ),
         BlocBuilder<TopRatedTvShowBloc, TvShowListState>(
           builder: (context, state) {

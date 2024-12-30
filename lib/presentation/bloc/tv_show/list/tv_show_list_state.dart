@@ -14,11 +14,11 @@ class TvShowListLoading extends TvShowListState {}
 class TvShowListError extends TvShowListState {
   final String message;
 
-  TvShowListError(this.message);
+  const TvShowListError(this.message);
 }
 
 class TvShowListHasData extends TvShowListState {
   final List<TvShow> result;
 
-  TvShowListHasData(this.result);
+  const TvShowListHasData(this.result);
 }

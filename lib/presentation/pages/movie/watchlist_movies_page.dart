@@ -6,21 +6,24 @@ import '../../../common/utils.dart';
 import '../../widgets/movie_card_list.dart';
 
 class WatchlistMoviesPage extends StatefulWidget {
-  static const ROUTE_NAME = '/watchlist-movie';
+  static const routeName = '/watchlist-movie';
 
   const WatchlistMoviesPage({super.key});
 
   @override
-  _WatchlistMoviesPageState createState() => _WatchlistMoviesPageState();
+  WatchlistMoviesPageState createState() => WatchlistMoviesPageState();
 }
 
-class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
+class WatchlistMoviesPageState extends State<WatchlistMoviesPage>
     with RouteAware {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-        () => context.read<MovieWatchlistBloc>().add(FetchMovieWatchlist()));
+    Future.microtask(() {
+      if (mounted) {
+        context.read<MovieWatchlistBloc>().add(FetchMovieWatchlist());
+      }
+    });
   }
 
   @override

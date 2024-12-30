@@ -14,11 +14,11 @@ class TvShowRecommendationLoading extends TvShowRecommendationState {}
 class TvShowRecommendationError extends TvShowRecommendationState {
   final String message;
 
-  TvShowRecommendationError(this.message);
+  const TvShowRecommendationError(this.message);
 }
 
 class TvShowRecommendationHasData extends TvShowRecommendationState {
   final List<TvShow> result;
 
-  TvShowRecommendationHasData(this.result);
+  const TvShowRecommendationHasData(this.result);
 }

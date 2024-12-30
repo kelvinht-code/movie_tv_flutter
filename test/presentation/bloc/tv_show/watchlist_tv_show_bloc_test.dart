@@ -14,7 +14,7 @@ import 'watchlist_tv_show_bloc_test.mocks.dart';
 void main() {
   late TvShowWatchlistBloc tvShowWatchlistBloc;
   late MockGetWatchlistTvShows mockGetWatchlistTvShows;
-  
+
   setUp(() {
     mockGetWatchlistTvShows = MockGetWatchlistTvShows();
     tvShowWatchlistBloc = TvShowWatchlistBloc(mockGetWatchlistTvShows);

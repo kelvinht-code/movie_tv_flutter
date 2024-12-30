@@ -20,10 +20,7 @@ void main() {
   group('Genre Model toJson', () {
     test('should return a JSON map containing proper data', () async {
       final result = tGenreModel.toJson();
-      final expectedJsonMap = {
-        'id': 1,
-        'name': 'name'
-      };
+      final expectedJsonMap = {'id': 1, 'name': 'name'};
       expect(result, expectedJsonMap);
     });
   });

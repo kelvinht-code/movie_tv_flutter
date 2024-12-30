@@ -5,7 +5,7 @@ import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/recommendation/
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_detail_body_page.dart';
 
 class TvShowDetailPage extends StatefulWidget {
-  static const ROUTE_NAME = '/detail-tvShow';
+  static const routeName = '/detail-tvShow';
   final int id;
 
   const TvShowDetailPage({super.key, required this.id});
@@ -19,10 +19,12 @@ class _TvShowDetailPageState extends State<TvShowDetailPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<TvShowDetailBloc>().add(FetchTvShowDetail(widget.id));
-      context
-          .read<TvShowRecommendationBloc>()
-          .add(FetchTvShowRecommendation(widget.id));
+      if (mounted) {
+        context.read<TvShowDetailBloc>().add(FetchTvShowDetail(widget.id));
+        context
+            .read<TvShowRecommendationBloc>()
+            .add(FetchTvShowRecommendation(widget.id));
+      }
     });
   }
 

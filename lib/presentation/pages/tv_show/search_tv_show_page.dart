@@ -6,7 +6,7 @@ import 'package:movie_tv_level_maximum/presentation/widgets/tv_show_card_list.da
 import '../../../common/constants.dart';
 
 class SearchTvShowPage extends StatelessWidget {
-  static const ROUTE_NAME = '/search-tvShow';
+  static const routeName = '/search-tvShow';
 
   const SearchTvShowPage({super.key});
 

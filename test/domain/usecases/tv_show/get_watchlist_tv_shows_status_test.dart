@@ -14,8 +14,7 @@ void main() {
   });
 
   test('Should get watchlist status from repository', () async {
-    when(repository.isAddedToWatchlistTvShow(1))
-        .thenAnswer((_) async => true);
+    when(repository.isAddedToWatchlistTvShow(1)).thenAnswer((_) async => true);
     final result = await useCase.execute(1);
     expect(result, true);
   });

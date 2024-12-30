@@ -15,25 +15,29 @@ class HomeMoviePage extends StatefulWidget {
   const HomeMoviePage({super.key});
 
   @override
-  _HomeMoviePageState createState() => _HomeMoviePageState();
+  HomeMoviePageState createState() => HomeMoviePageState();
 }
 
-class _HomeMoviePageState extends State<HomeMoviePage> {
+class HomeMoviePageState extends State<HomeMoviePage> {
   int indexTab = 1;
 
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<NowPlayingMovieBloc>().add(FetchNowPlayingMovies());
-      context.read<PopularMovieBloc>().add(FetchPopularMovies());
-      context.read<TopRatedMovieBloc>().add(FetchTopRatedMovies());
+      if (mounted) {
+        context.read<NowPlayingMovieBloc>().add(FetchNowPlayingMovies());
+        context.read<PopularMovieBloc>().add(FetchPopularMovies());
+        context.read<TopRatedMovieBloc>().add(FetchTopRatedMovies());
+      }
     });
     Future.microtask(() {
-      context.read<AiringTodayTvShowBloc>().add(FetchAiringTodayTvShows());
-      context.read<OnTheAirTvShowBloc>().add(FetchOnTheAirTvShows());
-      context.read<PopularTvShowBloc>().add(FetchPopularTvShows());
-      context.read<TopRatedTvShowBloc>().add(FetchTopRatedTvShows());
+      if (mounted) {
+        context.read<AiringTodayTvShowBloc>().add(FetchAiringTodayTvShows());
+        context.read<OnTheAirTvShowBloc>().add(FetchOnTheAirTvShows());
+        context.read<PopularTvShowBloc>().add(FetchPopularTvShows());
+        context.read<TopRatedTvShowBloc>().add(FetchTopRatedTvShows());
+      }
     });
   }
 
@@ -71,7 +75,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 setState(() {
                   indexTab = 2;
                 });
-                Navigator.pushNamed(context, WatchlistMoviesPage.ROUTE_NAME);
+                Navigator.pushNamed(context, WatchlistMoviesPage.routeName);
               },
             ),
             ListTile(
@@ -91,7 +95,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 setState(() {
                   indexTab = 4;
                 });
-                Navigator.pushNamed(context, WatchlistTvShowsPage.ROUTE_NAME);
+                Navigator.pushNamed(context, WatchlistTvShowsPage.routeName);
               },
             ),
             ListTile(
@@ -99,7 +103,7 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
                 setState(() {
                   indexTab = 5;
                 });
-                Navigator.pushNamed(context, AboutPage.ROUTE_NAME);
+                Navigator.pushNamed(context, AboutPage.routeName);
               },
               leading: Icon(Icons.info_outline),
               title: Text('About'),
@@ -114,10 +118,10 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
             onPressed: () {
               if (indexTab == 1) {
                 // FirebaseCrashlytics.instance.crash(); - Test for Crash
-                Navigator.pushNamed(context, SearchPage.ROUTE_NAME);
+                Navigator.pushNamed(context, SearchPage.routeName);
               } else if (indexTab == 3) {
                 // FirebaseCrashlytics.instance.crash(); - Test for Crash
-                Navigator.pushNamed(context, SearchTvShowPage.ROUTE_NAME);
+                Navigator.pushNamed(context, SearchTvShowPage.routeName);
               }
             },
             icon: Icon(Icons.search),

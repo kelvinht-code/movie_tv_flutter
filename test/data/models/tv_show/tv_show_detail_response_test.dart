@@ -175,5 +175,4 @@ void main() {
       expect(tTvShowDetailModelA, isNot(equals(tTvShowDetailModelC)));
     });
   });
-
 }

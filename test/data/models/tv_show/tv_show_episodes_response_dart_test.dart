@@ -35,7 +35,8 @@ void main() {
       expect(result.episodes, tvShowEpisode.episodes);
       expect(result.name, tvShowEpisode.name);
       expect(result.overview, tvShowEpisode.overview);
-      expect(result.tvShowEpisodeResponseId, tvShowEpisode.tvShowEpisodeResponseId);
+      expect(result.tvShowEpisodeResponseId,
+          tvShowEpisode.tvShowEpisodeResponseId);
       expect(result.posterPath, tvShowEpisode.posterPath);
       expect(result.seasonNumber, tvShowEpisode.seasonNumber);
       expect(result.voteAverage, tvShowEpisode.voteAverage);

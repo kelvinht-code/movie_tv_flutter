@@ -14,11 +14,11 @@ class MovieRecommendationLoading extends MovieRecommendationState {}
 class MovieRecommendationError extends MovieRecommendationState {
   final String message;
 
-  MovieRecommendationError(this.message);
+  const MovieRecommendationError(this.message);
 }
 
 class MovieRecommendationHasData extends MovieRecommendationState {
   final List<Movie> result;
 
-  MovieRecommendationHasData(this.result);
+  const MovieRecommendationHasData(this.result);
 }

@@ -13,7 +13,7 @@ import 'popular_tv_show_page_widget_test.mocks.dart';
 @GenerateMocks([PopularTvShowBloc])
 void main() {
   late MockPopularTvShowBloc mockPopularTvShowBloc;
-  
+
   setUp(() {
     mockPopularTvShowBloc = MockPopularTvShowBloc();
   });
@@ -49,7 +49,7 @@ void main() {
   testWidgets('Initial for Empty State', (WidgetTester tester) async {
     when(mockPopularTvShowBloc.state).thenReturn(TvShowListEmpty());
     when(mockPopularTvShowBloc.stream).thenAnswer(
-          (_) => Stream.value(TvShowListEmpty()),
+      (_) => Stream.value(TvShowListEmpty()),
     );
 
     await tester.pumpWidget(makeTestableWidget());
@@ -58,43 +58,43 @@ void main() {
   });
 
   testWidgets('Should show CircularProgressIndicator when loading',
-          (WidgetTester tester) async {
-        when(mockPopularTvShowBloc.state).thenReturn(TvShowListLoading());
-        when(mockPopularTvShowBloc.stream).thenAnswer(
-              (_) => Stream.value(TvShowListLoading()),
-        );
+      (WidgetTester tester) async {
+    when(mockPopularTvShowBloc.state).thenReturn(TvShowListLoading());
+    when(mockPopularTvShowBloc.stream).thenAnswer(
+      (_) => Stream.value(TvShowListLoading()),
+    );
 
-        await tester.pumpWidget(makeTestableWidget());
+    await tester.pumpWidget(makeTestableWidget());
 
-        expect(find.byType(CircularProgressIndicator), findsOneWidget);
-      });
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+  });
 
   testWidgets('Should show tv show list when data is available',
-          (WidgetTester tester) async {
-        when(mockPopularTvShowBloc.state)
-            .thenReturn(TvShowListHasData(tTvShowList));
-        when(mockPopularTvShowBloc.stream).thenAnswer(
-              (_) => Stream.value(TvShowListHasData(tTvShowList)),
-        );
+      (WidgetTester tester) async {
+    when(mockPopularTvShowBloc.state)
+        .thenReturn(TvShowListHasData(tTvShowList));
+    when(mockPopularTvShowBloc.stream).thenAnswer(
+      (_) => Stream.value(TvShowListHasData(tTvShowList)),
+    );
 
-        await tester.pumpWidget(makeTestableWidget());
+    await tester.pumpWidget(makeTestableWidget());
 
-        expect(find.byType(CachedNetworkImage), findsWidgets);
+    expect(find.byType(CachedNetworkImage), findsWidgets);
 
-        expect(find.text('name'), findsOneWidget);
-        expect(find.text('overview'), findsOneWidget);
-      });
+    expect(find.text('name'), findsOneWidget);
+    expect(find.text('overview'), findsOneWidget);
+  });
 
   testWidgets('Should show error message when there is an error',
-          (WidgetTester tester) async {
-        when(mockPopularTvShowBloc.state)
-            .thenReturn(TvShowListError('An error occurred'));
-        when(mockPopularTvShowBloc.stream).thenAnswer(
-              (_) => Stream.value(TvShowListError('An error occurred')),
-        );
+      (WidgetTester tester) async {
+    when(mockPopularTvShowBloc.state)
+        .thenReturn(TvShowListError('An error occurred'));
+    when(mockPopularTvShowBloc.stream).thenAnswer(
+      (_) => Stream.value(TvShowListError('An error occurred')),
+    );
 
-        await tester.pumpWidget(makeTestableWidget());
+    await tester.pumpWidget(makeTestableWidget());
 
-        expect(find.text('An error occurred'), findsOneWidget);
-      });
+    expect(find.text('An error occurred'), findsOneWidget);
+  });
 }

@@ -29,7 +29,9 @@ class _TvShowDetailBodyPageState extends State<TvShowDetailBodyPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<TvShowCrudBloc>().add(CheckIsWatchlist(widget.tvShow.id));
+      if (mounted) {
+        context.read<TvShowCrudBloc>().add(CheckIsWatchlist(widget.tvShow.id));
+      }
     });
   }
 
@@ -41,7 +43,7 @@ class _TvShowDetailBodyPageState extends State<TvShowDetailBodyPage> {
         (widget.tvShow.posterPath != '')
             ? CachedNetworkImage(
                 key: ValueKey('ImageTvShowDetail'),
-                imageUrl: '$BASE_IMAGE_URL${widget.tvShow.posterPath}',
+                imageUrl: '$baseImageUrl${widget.tvShow.posterPath}',
                 width: screenWidth,
                 placeholder: (context, url) => Center(
                   child: CircularProgressIndicator(),
@@ -146,12 +148,10 @@ class _TvShowDetailBodyPageState extends State<TvShowDetailBodyPage> {
     return BlocListener<TvShowCrudBloc, TvShowCrudState>(
       listener: (context, state) {
         if (state is TvShowCrudSuccess) {
-          print('Success Flow');
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message)),
           );
         } else if (state is TvShowCrudFailure) {
-          print('Failed Flow');
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message)),
           );
@@ -163,7 +163,6 @@ class _TvShowDetailBodyPageState extends State<TvShowDetailBodyPage> {
           if (state is TvShowCrudStatus) {
             isInWatchlist = state.isInWatchlist;
           }
-          print('isInWatchlist: $isInWatchlist');
           return Column(
             children: [
               FilledButton(
@@ -210,7 +209,7 @@ class _TvShowDetailBodyPageState extends State<TvShowDetailBodyPage> {
                     onTap: () {
                       Navigator.pushReplacementNamed(
                         context,
-                        TvShowDetailPage.ROUTE_NAME,
+                        TvShowDetailPage.routeName,
                         arguments: tvShow.id,
                       );
                     },
@@ -218,18 +217,18 @@ class _TvShowDetailBodyPageState extends State<TvShowDetailBodyPage> {
                       borderRadius: BorderRadius.all(
                         Radius.circular(8),
                       ),
-                      child: (tvShow.posterPath != null ||
-                          tvShow.posterPath != '')
-                          ? CachedNetworkImage(
-                        key: ValueKey('ImageTvShowDetail'),
-                        imageUrl: '$BASE_IMAGE_URL${tvShow.posterPath}',
-                        placeholder: (context, url) => Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        errorWidget: (context, url, error) =>
-                            Icon(Icons.error),
-                      )
-                          : Icon(Icons.broken_image),
+                      child:
+                          (tvShow.posterPath != null || tvShow.posterPath != '')
+                              ? CachedNetworkImage(
+                                  key: ValueKey('ImageTvShowDetail'),
+                                  imageUrl: '$baseImageUrl${tvShow.posterPath}',
+                                  placeholder: (context, url) => Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
+                                )
+                              : Icon(Icons.broken_image),
                     ),
                   ),
                 );
@@ -260,7 +259,7 @@ class _TvShowDetailBodyPageState extends State<TvShowDetailBodyPage> {
               onTap: () {
                 Navigator.pushNamed(
                   context,
-                  TvShowEpisodesPage.ROUTE_NAME,
+                  TvShowEpisodesPage.routeName,
                   arguments: {
                     'id': widget.tvShow.id,
                     'seasons': season.seasonNumber,
@@ -273,13 +272,13 @@ class _TvShowDetailBodyPageState extends State<TvShowDetailBodyPage> {
                 ),
                 child: (season.posterPath.isNotEmpty)
                     ? CachedNetworkImage(
-                  key: ValueKey('ImageTvShowDetail'),
-                  imageUrl: '$BASE_IMAGE_URL${widget.tvShow.posterPath}',
-                  placeholder: (context, url) => Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                )
+                        key: ValueKey('ImageTvShowDetail'),
+                        imageUrl: '$baseImageUrl${widget.tvShow.posterPath}',
+                        placeholder: (context, url) => Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      )
                     : Icon(Icons.broken_image),
               ),
             ),

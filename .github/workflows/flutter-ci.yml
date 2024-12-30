@@ -21,10 +21,24 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up Flutter
-        uses: subosito/flutter-action@v1  # Menggunakan versi v1
+        uses: subosito/flutter-action@v1
 
       - name: Install dependencies
         run: flutter pub get
+
+  lint:
+    runs-on: windows-latest
+    needs: install_dependencies
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v1
+
+      - name: Run Dart analysis
+        run: flutter analyze
 
   run_tests:
     runs-on: windows-latest
@@ -42,3 +56,32 @@ jobs:
 
       - name: Run tests
         run: flutter test
+
+  build_apk:
+    runs-on: windows-latest
+    needs: [install_dependencies, run_tests]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v1
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build APK (Debug)
+        run: flutter build apk --debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-apk-debug
+          path: build/app/outputs/flutter-apk/app-debug.apk

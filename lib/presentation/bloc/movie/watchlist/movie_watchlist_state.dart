@@ -14,11 +14,11 @@ class MovieWatchlistLoading extends MovieWatchlistState {}
 class MovieWatchlistError extends MovieWatchlistState {
   final String message;
 
-  MovieWatchlistError(this.message);
+  const MovieWatchlistError(this.message);
 }
 
 class MovieWatchlistHasData extends MovieWatchlistState {
   final List<Movie> result;
 
-  MovieWatchlistHasData(this.result);
+  const MovieWatchlistHasData(this.result);
 }

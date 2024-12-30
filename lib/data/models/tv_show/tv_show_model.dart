@@ -18,7 +18,7 @@ class TvShowModel extends Equatable {
   final double voteAverage;
   final int voteCount;
 
-  TvShowModel({
+  const TvShowModel({
     required this.adult,
     required this.backdropPath,
     required this.genreIds,

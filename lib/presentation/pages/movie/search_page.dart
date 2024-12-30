@@ -6,7 +6,7 @@ import '../../../common/constants.dart';
 import '../../widgets/movie_card_list.dart';
 
 class SearchPage extends StatelessWidget {
-  static const ROUTE_NAME = '/search';
+  static const routeName = '/search';
 
   const SearchPage({super.key});
 
@@ -23,7 +23,6 @@ class SearchPage extends StatelessWidget {
           children: [
             TextField(
               onChanged: (query) {
-                print('Query: $query');
                 context.read<SearchMovieBloc>().add(OnQueryMovieChange(query));
               },
               decoration: InputDecoration(
@@ -40,7 +39,6 @@ class SearchPage extends StatelessWidget {
             ),
             BlocBuilder<SearchMovieBloc, SearchMovieState>(
               builder: (context, state) {
-                print('State changed: $state');
                 if (state is SearchMovieLoading) {
                   return Center(
                     child: CircularProgressIndicator(),
@@ -52,7 +50,6 @@ class SearchPage extends StatelessWidget {
                       padding: const EdgeInsets.all(8),
                       itemBuilder: (context, index) {
                         final movie = result[index];
-                        print('Result ${movie.originalTitle}');
                         return MovieCard(movie);
                       },
                       itemCount: result.length,
