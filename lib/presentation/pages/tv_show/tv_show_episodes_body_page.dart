@@ -22,7 +22,7 @@ class TvShowEpisodesBodyPage extends StatelessWidget {
         tvShowEpisodes.posterPath != ''
             ? CachedNetworkImage(
                 key: ValueKey('ImageTvShowDetail'),
-                imageUrl: '$BASE_IMAGE_URL${tvShowEpisodes.posterPath}',
+                imageUrl: '$baseImageUrl${tvShowEpisodes.posterPath}',
                 width: screenWidth,
                 placeholder: (context, url) => Center(
                   child: CircularProgressIndicator(),
@@ -149,7 +149,7 @@ class TvShowEpisodesBodyPage extends StatelessWidget {
                   child: episode.stillPath != ''
                       ? CachedNetworkImage(
                           key: ValueKey('ImageTvShowDetail'),
-                          imageUrl: '$BASE_IMAGE_URL${episode.stillPath}',
+                          imageUrl: '$baseImageUrl${episode.stillPath}',
                           placeholder: (context, url) => Center(
                             child: CircularProgressIndicator(),
                           ),

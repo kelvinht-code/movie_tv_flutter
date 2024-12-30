@@ -5,7 +5,7 @@ import 'package:movie_tv_level_maximum/presentation/widgets/tv_show_card_list.da
 import '../../bloc/tv_show/list/tv_show_list_bloc.dart';
 
 class PopularTvShowsPage extends StatefulWidget {
-  static const ROUTE_NAME = '/popular-tvShow';
+  static const routeName = '/popular-tvShow';
 
   const PopularTvShowsPage({super.key});
 

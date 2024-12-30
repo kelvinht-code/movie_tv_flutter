@@ -34,7 +34,7 @@ class MoviePageWidget extends StatelessWidget {
         _buildSubHeading(
           title: 'Popular',
           onTap: () =>
-              Navigator.pushNamed(context, PopularMoviesPage.ROUTE_NAME),
+              Navigator.pushNamed(context, PopularMoviesPage.routeName),
         ),
         BlocBuilder<PopularMovieBloc, MovieListState>(
           builder: (context, state) {
@@ -51,7 +51,7 @@ class MoviePageWidget extends StatelessWidget {
         _buildSubHeading(
           title: 'Top Rated',
           onTap: () =>
-              Navigator.pushNamed(context, TopRatedMoviesPage.ROUTE_NAME),
+              Navigator.pushNamed(context, TopRatedMoviesPage.routeName),
         ),
         BlocBuilder<TopRatedMovieBloc, MovieListState>(
           builder: (context, state) {

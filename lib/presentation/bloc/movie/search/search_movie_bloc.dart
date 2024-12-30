@@ -15,7 +15,6 @@ class SearchMovieBloc extends Bloc<SearchMovieEvent, SearchMovieState> {
       (event, emit) async {
         final query = event.query;
 
-        print('Print Search Movie Bloc : $query');
         emit(SearchMovieLoading());
         final result = await _searchMovies.execute(query);
 

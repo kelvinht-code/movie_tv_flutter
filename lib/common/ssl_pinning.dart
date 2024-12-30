@@ -8,7 +8,6 @@ Future<SecurityContext> get globalContext async {
   final sslCert = await rootBundle.load('certificates/certificates.pem');
   SecurityContext securityContext = SecurityContext.defaultContext;
   securityContext.setTrustedCertificatesBytes(sslCert.buffer.asUint8List());
-  print('Loaded certificate: ${sslCert.buffer.asUint8List().length} bytes');
   return securityContext;
 }
 
