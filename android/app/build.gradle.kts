@@ -2,7 +2,7 @@ buildscript {
     val kotlin_version by extra("1.8.10")  // Define the Kotlin version using 'extra'
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
-        //classpath("com.google.gms:google-services:4.3.13") // Google Services plugin
+        classpath("com.google.gms:google-services:4.3.13") // Google Services plugin
 
     }
 }
