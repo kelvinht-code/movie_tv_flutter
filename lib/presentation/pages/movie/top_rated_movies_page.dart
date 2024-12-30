@@ -10,16 +10,18 @@ class TopRatedMoviesPage extends StatefulWidget {
   const TopRatedMoviesPage({super.key});
 
   @override
-  _TopRatedMoviesPageState createState() => _TopRatedMoviesPageState();
+  TopRatedMoviesPageState createState() => TopRatedMoviesPageState();
 }
 
-class _TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
+class TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-      () => context.read<TopRatedMovieBloc>().add(FetchTopRatedMovies()),
-    );
+    Future.microtask(() {
+      if (mounted) {
+        context.read<TopRatedMovieBloc>().add(FetchTopRatedMovies());
+      }
+    });
   }
 
   @override

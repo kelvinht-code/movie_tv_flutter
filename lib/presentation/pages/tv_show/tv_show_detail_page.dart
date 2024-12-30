@@ -19,10 +19,12 @@ class _TvShowDetailPageState extends State<TvShowDetailPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<TvShowDetailBloc>().add(FetchTvShowDetail(widget.id));
-      context
-          .read<TvShowRecommendationBloc>()
-          .add(FetchTvShowRecommendation(widget.id));
+      if (mounted) {
+        context.read<TvShowDetailBloc>().add(FetchTvShowDetail(widget.id));
+        context
+            .read<TvShowRecommendationBloc>()
+            .add(FetchTvShowRecommendation(widget.id));
+      }
     });
   }
 

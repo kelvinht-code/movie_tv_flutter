@@ -17,19 +17,21 @@ class MovieDetailPage extends StatefulWidget {
   const MovieDetailPage({super.key, required this.id});
 
   @override
-  _MovieDetailPageState createState() => _MovieDetailPageState();
+  MovieDetailPageState createState() => MovieDetailPageState();
 }
 
-class _MovieDetailPageState extends State<MovieDetailPage> {
+class MovieDetailPageState extends State<MovieDetailPage> {
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<MovieDetailBloc>().add(FetchMovieDetail(widget.id));
-      context
-          .read<MovieRecommendationBloc>()
-          .add(FetchMovieRecommendation(widget.id));
-      context.read<MovieCrudBloc>().add(CheckIsWatchlist(widget.id));
+      if (mounted) {
+        context.read<MovieDetailBloc>().add(FetchMovieDetail(widget.id));
+        context
+            .read<MovieRecommendationBloc>()
+            .add(FetchMovieRecommendation(widget.id));
+        context.read<MovieCrudBloc>().add(CheckIsWatchlist(widget.id));
+      }
     });
   }
 

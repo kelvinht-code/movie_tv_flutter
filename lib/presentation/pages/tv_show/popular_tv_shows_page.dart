@@ -17,9 +17,11 @@ class _PopularTvShowsPageState extends State<PopularTvShowsPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-      () => context.read<PopularTvShowBloc>().add(FetchPopularTvShows()),
-    );
+    Future.microtask(() {
+      if (mounted) {
+        context.read<PopularTvShowBloc>().add(FetchPopularTvShows());
+      }
+    });
   }
 
   @override

@@ -19,8 +19,11 @@ class _WatchlistTvShowsPageState extends State<WatchlistTvShowsPage>
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-        () => context.read<TvShowWatchlistBloc>().add(FetchTvShowWatchlist()));
+    Future.microtask(() {
+      if (mounted) {
+        context.read<TvShowWatchlistBloc>().add(FetchTvShowWatchlist());
+      }
+    });
   }
 
   @override

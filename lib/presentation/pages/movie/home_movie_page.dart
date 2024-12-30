@@ -15,25 +15,29 @@ class HomeMoviePage extends StatefulWidget {
   const HomeMoviePage({super.key});
 
   @override
-  _HomeMoviePageState createState() => _HomeMoviePageState();
+  HomeMoviePageState createState() => HomeMoviePageState();
 }
 
-class _HomeMoviePageState extends State<HomeMoviePage> {
+class HomeMoviePageState extends State<HomeMoviePage> {
   int indexTab = 1;
 
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<NowPlayingMovieBloc>().add(FetchNowPlayingMovies());
-      context.read<PopularMovieBloc>().add(FetchPopularMovies());
-      context.read<TopRatedMovieBloc>().add(FetchTopRatedMovies());
+      if (mounted) {
+        context.read<NowPlayingMovieBloc>().add(FetchNowPlayingMovies());
+        context.read<PopularMovieBloc>().add(FetchPopularMovies());
+        context.read<TopRatedMovieBloc>().add(FetchTopRatedMovies());
+      }
     });
     Future.microtask(() {
-      context.read<AiringTodayTvShowBloc>().add(FetchAiringTodayTvShows());
-      context.read<OnTheAirTvShowBloc>().add(FetchOnTheAirTvShows());
-      context.read<PopularTvShowBloc>().add(FetchPopularTvShows());
-      context.read<TopRatedTvShowBloc>().add(FetchTopRatedTvShows());
+      if (mounted) {
+        context.read<AiringTodayTvShowBloc>().add(FetchAiringTodayTvShows());
+        context.read<OnTheAirTvShowBloc>().add(FetchOnTheAirTvShows());
+        context.read<PopularTvShowBloc>().add(FetchPopularTvShows());
+        context.read<TopRatedTvShowBloc>().add(FetchTopRatedTvShows());
+      }
     });
   }
 

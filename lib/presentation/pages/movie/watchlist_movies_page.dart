@@ -11,16 +11,19 @@ class WatchlistMoviesPage extends StatefulWidget {
   const WatchlistMoviesPage({super.key});
 
   @override
-  _WatchlistMoviesPageState createState() => _WatchlistMoviesPageState();
+  WatchlistMoviesPageState createState() => WatchlistMoviesPageState();
 }
 
-class _WatchlistMoviesPageState extends State<WatchlistMoviesPage>
+class WatchlistMoviesPageState extends State<WatchlistMoviesPage>
     with RouteAware {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-        () => context.read<MovieWatchlistBloc>().add(FetchMovieWatchlist()));
+    Future.microtask(() {
+      if (mounted) {
+        context.read<MovieWatchlistBloc>().add(FetchMovieWatchlist());
+      }
+    });
   }
 
   @override

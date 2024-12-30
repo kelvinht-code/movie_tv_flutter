@@ -17,9 +17,11 @@ class _OnTheAirTvShowsPage extends State<OnTheAirTvShowsPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-      () => context.read<OnTheAirTvShowBloc>().add(FetchOnTheAirTvShows()),
-    );
+    Future.microtask(() {
+      if (mounted) {
+        context.read<OnTheAirTvShowBloc>().add(FetchOnTheAirTvShows());
+      }
+    });
   }
 
   @override

@@ -17,9 +17,11 @@ class _TopRatedTvShowsPage extends State<TopRatedTvShowsPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(
-      () => context.read<TopRatedTvShowBloc>().add(FetchTopRatedTvShows()),
-    );
+    Future.microtask(() {
+      if (mounted) {
+        context.read<TopRatedTvShowBloc>().add(FetchTopRatedTvShows());
+      }
+    });
   }
 
   @override

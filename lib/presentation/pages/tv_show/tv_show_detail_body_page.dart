@@ -29,7 +29,9 @@ class _TvShowDetailBodyPageState extends State<TvShowDetailBodyPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<TvShowCrudBloc>().add(CheckIsWatchlist(widget.tvShow.id));
+      if (mounted) {
+        context.read<TvShowCrudBloc>().add(CheckIsWatchlist(widget.tvShow.id));
+      }
     });
   }
 
@@ -215,18 +217,18 @@ class _TvShowDetailBodyPageState extends State<TvShowDetailBodyPage> {
                       borderRadius: BorderRadius.all(
                         Radius.circular(8),
                       ),
-                      child: (tvShow.posterPath != null ||
-                              tvShow.posterPath != '')
-                          ? CachedNetworkImage(
-                              key: ValueKey('ImageTvShowDetail'),
-                              imageUrl: '$baseImageUrl${tvShow.posterPath}',
-                              placeholder: (context, url) => Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                            )
-                          : Icon(Icons.broken_image),
+                      child:
+                          (tvShow.posterPath != null || tvShow.posterPath != '')
+                              ? CachedNetworkImage(
+                                  key: ValueKey('ImageTvShowDetail'),
+                                  imageUrl: '$baseImageUrl${tvShow.posterPath}',
+                                  placeholder: (context, url) => Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
+                                )
+                              : Icon(Icons.broken_image),
                     ),
                   ),
                 );

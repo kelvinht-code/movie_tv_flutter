@@ -23,9 +23,11 @@ class _TvShowEpisodesPageState extends State<TvShowEpisodesPage> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      context
-          .read<TvShowEpisodesBloc>()
-          .add(FetchTvShowEpisodes(widget.id, widget.season));
+      if (mounted) {
+        context
+            .read<TvShowEpisodesBloc>()
+            .add(FetchTvShowEpisodes(widget.id, widget.season));
+      }
     });
   }
 
