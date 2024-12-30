@@ -50,7 +50,7 @@ class WatchlistMoviesPageState extends State<WatchlistMoviesPage>
             if (state is MovieWatchlistLoading) {
               return Center(child: CircularProgressIndicator());
             } else if (state is MovieWatchlistHasData) {
-              return (state.result.length > 0)
+              return (state.result.isNotEmpty)
                   ? ListView.builder(
                       itemCount: state.result.length,
                       itemBuilder: (context, index) {
