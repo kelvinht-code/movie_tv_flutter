@@ -128,26 +128,11 @@ class HomeMoviePageState extends State<HomeMoviePage> {
         child: SingleChildScrollView(
           child: BlocBuilder<HomeBloc, HomeState>(
             builder: (context, state) {
-              print('Ini value home initial ----- ${state.currentTab}');
               if (state.currentTab == 0) {
                 return MoviePageWidget();
               } else if (state.currentTab == 2) {
                 return TvShowPageWidget();
               }
-              /*if (state is HomeInitial) {
-                print('Ini jalan home initial');
-                //context.read<HomeBloc>().add(ChangeTab(tabIndex: 0));
-                return MoviePageWidget();
-              }
-              if (state is HomeTabChanged) {
-                // Logic ini tidak jalan
-                print("Ini Jalan Home Page --- ${state.tabIndex}");
-                if (state.tabIndex == 0) {
-                  return MoviePageWidget();
-                } else if  (state.tabIndex == 2) {
-                  return TvShowPageWidget();
-                }
-              }*/
               return SizedBox();
             },
           ),
