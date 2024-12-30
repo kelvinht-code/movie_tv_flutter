@@ -16,14 +16,19 @@ Future<IOClient> get getIOClient async {
   HttpClient client = HttpClient(context: await globalContext);
   client.badCertificateCallback =
       (X509Certificate cert, String host, int port) {
-    return cert.pem == String.fromCharCodes(sslCert.buffer.asUint8List());
+    bool isValid =
+        cert.pem == String.fromCharCodes(sslCert.buffer.asUint8List());
+    if (!isValid) {
+      throw Exception('Certificate no valid! Connected is canceled.');
+    }
+    return isValid;
   };
   return IOClient(client);
 }
 
 class Shared {
   static Future<http.Client> createLEClient() async {
-    return await getIOClient;
+    return getIOClient;
   }
 }
 
