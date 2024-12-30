@@ -63,7 +63,8 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
 class DetailContent extends StatelessWidget {
   final MovieDetail movie;
 
-  const DetailContent({super.key, 
+  const DetailContent({
+    super.key,
     required this.movie,
   });
 
