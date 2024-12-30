@@ -56,7 +56,7 @@ class _WatchlistTvShowsPageState extends State<WatchlistTvShowsPage>
             if (state is TvShowWatchlistLoading) {
               return Center(child: CircularProgressIndicator());
             } else if (state is TvShowWatchlistHasData) {
-              return (state.result.length > 0)
+              return (state.result.isNotEmpty)
                   ? ListView.builder(
                       itemCount: state.result.length,
                       itemBuilder: (context, index) {
