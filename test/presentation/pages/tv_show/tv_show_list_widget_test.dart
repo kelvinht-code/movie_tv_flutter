@@ -16,7 +16,6 @@ import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/detail/tv_show_
 import 'package:movie_tv_level_maximum/presentation/bloc/tv_show/recommendation/tv_show_recommendation_bloc.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_detail_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_list_widget.dart';
-import 'package:provider/provider.dart';
 
 import '../../../dummy_data/dummy_objects.dart';
 import '../../bloc/tv_show/crud_tv_show_bloc_test.mocks.dart';
@@ -87,7 +86,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         routes: {
-          '/detail-tvShow': (context) => MultiProvider(
+          '/detail-tvShow': (context) => MultiBlocProvider(
                 providers: [
                   BlocProvider<TvShowDetailBloc>(
                     create: (_) => TvShowDetailBloc(mockGetTvShowDetail),

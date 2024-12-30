@@ -51,7 +51,7 @@ import 'domain/use_cases/movie/search_movies.dart';
 final locator = GetIt.instance;
 
 void init() {
-  // provider
+  // bloc
   locator.registerFactory(
     () => NowPlayingMovieBloc(locator()),
   );

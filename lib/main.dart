@@ -33,7 +33,6 @@ import 'package:movie_tv_level_maximum/presentation/pages/tv_show/top_rated_tv_s
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_detail_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/tv_show_episodes_page.dart';
 import 'package:movie_tv_level_maximum/presentation/pages/tv_show/watchlist_tv_shows_page.dart';
-import 'package:provider/provider.dart';
 
 import 'common/constants.dart';
 import 'common/utils.dart';
@@ -44,7 +43,6 @@ Future<void> main() async {
   await HttpSSLPinning.init();
   di.init();
   GoogleFonts.config.allowRuntimeFetching = false;
-  //WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -57,7 +55,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+    return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (_) => di.locator<NowPlayingMovieBloc>(),
