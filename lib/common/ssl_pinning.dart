@@ -4,25 +4,13 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 
-Future<SecurityContext> get globalContext async {
-  final sslCert = await rootBundle.load('certificates/certificates.pem');
-  SecurityContext securityContext = SecurityContext.defaultContext;
-  securityContext.setTrustedCertificatesBytes(sslCert.buffer.asUint8List());
-  return securityContext;
-}
-
 Future<IOClient> get getIOClient async {
-  final sslCert = await rootBundle.load('certificates/certificates.pem');
-  HttpClient client = HttpClient(context: await globalContext);
+  final sslCert = await rootBundle.load('certificates/certificates.cer');
+  SecurityContext securityContext = SecurityContext(withTrustedRoots: false);
+  securityContext.setTrustedCertificatesBytes(sslCert.buffer.asInt8List());
+  HttpClient client = HttpClient(context: securityContext);
   client.badCertificateCallback =
-      (X509Certificate cert, String host, int port) {
-    bool isValid =
-        cert.pem == String.fromCharCodes(sslCert.buffer.asUint8List());
-    if (!isValid) {
-      throw Exception('Certificate no valid! Connected is canceled.');
-    }
-    return isValid;
-  };
+      (X509Certificate cert, String host, int port) => false;
   return IOClient(client);
 }
 
