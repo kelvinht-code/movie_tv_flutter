@@ -29,6 +29,8 @@ class MovieRepositoryImpl implements MovieRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(ServerFailure('Certificate Not Valid'));
     }
   }
 
@@ -41,6 +43,8 @@ class MovieRepositoryImpl implements MovieRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(ServerFailure('Certificate Not Valid'));
     }
   }
 
@@ -53,6 +57,8 @@ class MovieRepositoryImpl implements MovieRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(ServerFailure('Certificate Not Valid'));
     }
   }
 
@@ -65,6 +71,8 @@ class MovieRepositoryImpl implements MovieRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(ServerFailure('Certificate Not Valid'));
     }
   }
 
@@ -77,6 +85,8 @@ class MovieRepositoryImpl implements MovieRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(ServerFailure('Certificate Not Valid'));
     }
   }
 
@@ -89,6 +99,8 @@ class MovieRepositoryImpl implements MovieRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(ServerFailure('Certificate Not Valid'));
     }
   }
 

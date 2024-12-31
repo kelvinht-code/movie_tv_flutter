@@ -30,6 +30,8 @@ class TvShowRepositoryImpl implements TvShowRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(ServerFailure('Certificate Not Valid'));
     }
   }
 
@@ -42,6 +44,8 @@ class TvShowRepositoryImpl implements TvShowRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(ServerFailure('Certificate Not Valid'));
     }
   }
 
@@ -54,6 +58,8 @@ class TvShowRepositoryImpl implements TvShowRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(ServerFailure('Certificate Not Valid'));
     }
   }
 
@@ -66,6 +72,8 @@ class TvShowRepositoryImpl implements TvShowRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(ServerFailure('Certificate Not Valid'));
     }
   }
 
@@ -78,6 +86,8 @@ class TvShowRepositoryImpl implements TvShowRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(ServerFailure('Certificate Not Valid'));
     }
   }
 
@@ -90,6 +100,8 @@ class TvShowRepositoryImpl implements TvShowRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(ServerFailure('Certificate Not Valid'));
     }
   }
 
@@ -102,6 +114,8 @@ class TvShowRepositoryImpl implements TvShowRepository {
       return Left(ServerFailure(''));
     } on SocketException {
       return Left(ConnectionFailure('Failed to connect to the network'));
+    } on HandshakeException {
+      return Left(ServerFailure('Certificate Not Valid'));
     }
   }
 
